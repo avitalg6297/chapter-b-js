@@ -6,10 +6,12 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
+var last_pressed_key;
 
 Start();
 
 function Start() {
+    last_pressed_key = 3;
 	board = new Array();
 	score = 0;
 	pac_color = "yellow";
@@ -48,6 +50,8 @@ function Start() {
 	keysDown = {};
 	addEventListener("keydown", function (e) {
 		keysDown[e.code] = true;
+		last_pressed_key = GetKeyPressed () ;
+		lastKeyPressed = GetKeyPressed();
 	}, false);
 	addEventListener("keyup", function (e) {
 		keysDown[e.code] = false;
@@ -84,7 +88,7 @@ function GetKeyPressed() {
 	}
 }
 
-function Draw() {
+function Draw(direction) {
 	context.clearRect(0, 0, canvas.width, canvas.height); //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
@@ -94,15 +98,50 @@ function Draw() {
 			center.x = i * 60 + 30;
 			center.y = j * 60 + 30;
 			if (board[i][j] === 2) {
-				context.beginPath();
-				context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
-				context.lineTo(center.x, center.y);
-				context.fillStyle = pac_color; //color
-				context.fill();
-				context.beginPath();
-				context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
-				context.fillStyle = "black"; //color
-				context.fill();
+				if(direction === 1){
+					context.beginPath();
+					context.arc(center.x, center.y, 30, 1.65 * Math.PI, 3.30 * Math.PI); // half circle
+					context.lineTo(center.x , center.y);
+					context.fillStyle = pac_color; //color
+					context.fill();
+					context.beginPath();
+					context.arc(center.x + 10 , center.y + 5, 5, 0, 2 * Math.PI); // circle
+					context.fillStyle = "black"; //color
+					context.fill();
+				}
+				if(direction === 2){
+					context.beginPath();
+					context.arc(center.x, center.y, 30, 0.65 * Math.PI, 2.30 * Math.PI); // half circle
+					context.lineTo(center.x , center.y);
+					context.fillStyle = pac_color; //color
+					context.fill();
+					context.beginPath();
+					context.arc(center.x + 10 , center.y - 10, 5, 0, 2 * Math.PI); // circle
+					context.fillStyle = "black"; //color
+					context.fill();
+				}
+				if(direction === 3){
+					context.beginPath();
+					context.arc(center.x, center.y, 30, 1.15 * Math.PI, 2.80 * Math.PI); // half circle
+					context.lineTo(center.x , center.y);
+					context.fillStyle = pac_color; //color
+					context.fill();
+					context.beginPath();
+					context.arc(center.x , center.y - 15, 5, 0, 2 * Math.PI); // circle
+					context.fillStyle = "black"; //color
+					context.fill();
+				}
+				if(direction === 4){
+					context.beginPath();
+					context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+					context.lineTo(center.x , center.y);
+					context.fillStyle = pac_color; //color
+					context.fill();
+					context.beginPath();
+					context.arc(center.x , center.y - 15, 5, 0, 2 * Math.PI); // circle
+					context.fillStyle = "black"; //color
+					context.fill();
+				}
 			} else if (board[i][j] === 1) {
 				context.beginPath();
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
@@ -123,6 +162,7 @@ function Draw() {
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
+	lastKeyPressed =x;
 	if (x === 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] !== 4) {
 			shape.j--;
@@ -156,6 +196,6 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	} else {
-		Draw();
+		Draw(last_pressed_key);
 	}
 }
