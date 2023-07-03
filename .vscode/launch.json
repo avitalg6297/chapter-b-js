@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "file": "C:\\Users\\avita\\vscode projects\\chapter-b-js\\PACMAN\\index.html"
+            "file": "C:\\Users\\dvirl\\Documents\\Prototype Training\\avital\\chapter-b-js\\PACMAN\\index.html"
         }
     ]
 }
