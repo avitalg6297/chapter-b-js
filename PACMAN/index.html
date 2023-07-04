@@ -3,15 +3,18 @@
 
 <head></head>
 
-<body>SCORE:
-  <input id="lblScore" type="text" />
-  <br />
-  TIME:
-  <input id="lblTime" type="text" />
-  <br />
-  <canvas id="canvas" height="600" width="600"></canvas>
+<body>
+  <div id="gameDiv">
+    SCORE:
+    <input id="lblScore" type="text" />
+    <br />
+    TIME:
+    <input id="lblTime" type="text" />
+    <br />
+    <canvas id="canvas" height="600" width="600"></canvas>
+  </div>
 
-  <div class=registration-form>
+  <div class=registrationForm style="display:none;" id="signUpDiv">
     <form name="register" onsubmit="return validate()">
       <label for="username">Username:</label>
       <br>
@@ -37,10 +40,36 @@
     </form>
   </div>
 
+  <div class=logInForm style="display:none;" id="signInDiv">
+    <form name="logIn" onsubmit="return startGame()">
+      <label for="loginUsername">Username:</label>
+      <br>
+      <input type="text" id="loginUsername" name="loginUsername">
+      <br>
+      <label for="loginPassword">Password:</label>
+      <br>
+      <input type="password" id="loginPassword" name="loginPassword">
+      <br>
+      <input type="submit" name="Submit" value="Sign In" />
+    </form>
+  </div>
+
+  <div class=welcome id="welcomeDiv">
+    <form name="welcome">
+      <input type="button" name="answer" value="Sign in" onclick="showSignInDiv()" />
+      <br>
+      <input type="button" name="answer" value="Sign up" onclick="showSignUpDiv()" />
+      <br>
+    </form>
+  </div>
+
+  <script type="text/javascript" src="welcomeForm.js">
+  </script>
+  <script type="text/javascript" src="logInForm.js">
+  </script>
   <script type="text/javascript" src="registrationForm.js">
   </script>
   <script type="text/javascript" src="code.js">
   </script>
 </body>
-
 </html>

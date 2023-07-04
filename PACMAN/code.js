@@ -155,8 +155,6 @@ function Draw(direction) {
 			}
 		}
 	}
-
-
 }
 
 function UpdatePosition() {

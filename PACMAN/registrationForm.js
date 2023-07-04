@@ -1,12 +1,12 @@
 function addUsernameAndPasswordToLocalStorage() {
     let userNameExist = false;
-    user = document.getElementById("username").value;
+    let user = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     if (typeof (Storage) !== "undefined") {
         let userNamesCollection = JSON.parse(localStorage.getItem("userNamesCollection"));
         if (userNamesCollection != null) {
-            var arrayLength = userNamesCollection.length;
-            for (var i = 0; i < arrayLength; i++) {
+            let arrayLength = userNamesCollection.length;
+            for (let i = 0; i < arrayLength; i++) {
                 if (userNamesCollection[i] === user) {
                     userNameExist = true;
                     alert("User name already exist");
@@ -27,7 +27,7 @@ function addUsernameAndPasswordToLocalStorage() {
             let emptyArray = [];
             emptyArray.push("a");
             emptyArray.push(user);
-            var map = new Map([['a', 'a']]);
+            let map = new Map([['a', 'a']]);
             map.set(user, password)
             localStorage.setItem("userNamesCollection", JSON.stringify(emptyArray));
             localStorage.myMap = JSON.stringify(Array.from(map.entries()));
