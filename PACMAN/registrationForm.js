@@ -1,45 +1,56 @@
 function addUsernameAndPasswordToLocalStorage() {
-    let userNameExist = false;
-    let user = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    const user = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
     if (typeof (Storage) !== "undefined") {
-        let userNamesCollection = JSON.parse(localStorage.getItem("userNamesCollection"));
+        const userNamesCollection = JSON.parse(localStorage.getItem("userNamesCollection"));
         if (userNamesCollection != null) {
-            let arrayLength = userNamesCollection.length;
-            for (let i = 0; i < arrayLength; i++) {
-                if (userNamesCollection[i] === user) {
-                    userNameExist = true;
-                    alert("User name already exist");
-                    document.register.username.focus();
-                }
+            const isUserNameExist = checkIfUsernameExistsInLocalStorage(userNamesCollection, user);
+            if (isUserNameExist) {
+                return true;
             }
-            if (userNameExist === false) {
-                userNamesCollection.push(user);
-                localStorage.setItem("userNamesCollection", JSON.stringify(userNamesCollection));
+            else {
+                addUserAndPasswordToLocalStorage(user, password, userNamesCollection);
+            }
 
-                map = new Map(JSON.parse(localStorage.myMap));
-                if (map != null) {
-                    map.set(user, password)
-                    localStorage.myMap = JSON.stringify(Array.from(map.entries()));
-                }
-            }
         } else {
-            let emptyArray = [];
-            emptyArray.push("a");
-            emptyArray.push(user);
-            let map = new Map([['a', 'a']]);
-            map.set(user, password)
-            localStorage.setItem("userNamesCollection", JSON.stringify(emptyArray));
-            localStorage.myMap = JSON.stringify(Array.from(map.entries()));
+            initializelocalStorageIfEmpty(user, password)
         }
     } else {
         alert("Sorry, your browser does not support Web Storage...");
     }
 }
 
+function checkIfUsernameExistsInLocalStorage(userNamesCollection, user) {
+    const arrayLength = userNamesCollection.length;
+    for (let i = 0; i < arrayLength; i++) {
+        if (userNamesCollection[i] === user) {
+            alert("User name already exist");
+            document.register.username.focus();
+            return true;
+        }
+    }
+    return false;
+}
+
+function initializelocalStorageIfEmpty(user, password) {
+    const emptyArray = ["a", user];
+    const map = new Map([['a', 'a'], [user, password]]);
+    localStorage.setItem("userNamesCollection", JSON.stringify(emptyArray));
+    localStorage.myMap = JSON.stringify(Array.from(map.entries()));
+}
+
+function addUserAndPasswordToLocalStorage(user, password, userNamesCollection) {
+    userNamesCollection.push(user);
+    localStorage.setItem("userNamesCollection", JSON.stringify(userNamesCollection));
+
+    let map = new Map(JSON.parse(localStorage.myMap));
+    map.set(user, password)
+    localStorage.myMap = JSON.stringify(Array.from(map.entries()));
+}
+
 function emailValidation() {
-    let stringToValidate = document.getElementById("email").value;
-    let isEmailValid = validateEmail(stringToValidate);
+    const stringToValidate = document.getElementById("email").value;
+    const isEmailValid = validateEmail(stringToValidate);
     if (isEmailValid === null) {
         alert("Email address is invalid");
         document.register.email.focus();
@@ -50,7 +61,7 @@ function emailValidation() {
 }
 
 function validateDate() {
-    let dateToValidate = new Date(document.getElementById("dateOfBirth").value);
+    const dateToValidate = new Date(document.getElementById("dateOfBirth").value);
     const today = new Date();
     if (dateToValidate < today) {
         return true;
@@ -71,9 +82,9 @@ const validateEmail = (email) => {//arrow func
 
 
 function passwordValidation() {
-    let stringToValidate = document.getElementById("password").value;
-    let pattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-    if (stringToValidate && stringToValidate.length > 2 && pattern.test(stringToValidate)) {
+    const stringToValidate = document.getElementById("password").value;
+    const pattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if ( stringToValidate.length > 2 && pattern.test(stringToValidate)) {
         return true;
     } else {
         alert("password is invalid - please use upper and lower case chars, digits and special symbols");
@@ -82,41 +93,38 @@ function passwordValidation() {
     }
 }
 
+function validateIfFormFieldsAreEmpty(fieldToCheck, fieldName) {
+    if (fieldToCheck.value == "") {
+        alert("Please provide " + fieldName + "!");
+        fieldToCheck.focus();
+        return true;
+    }
+    return false;
+}
+
 function validate() {
-    let valideForm = true;
-    if (document.register.username.value == "") {
-        alert("Please provide username!");
-        document.register.username.focus();
-        valideForm = false;
+    let isEmailValid;
+    let isPasswordValid;
+    let isDateValid;
+    const isUsernameEmpty = validateIfFormFieldsAreEmpty(document.register.username, "username");
+    const isPasswordEmpty = validateIfFormFieldsAreEmpty(document.register.password, "password");
+    const isFullNameEmpty = validateIfFormFieldsAreEmpty(document.register.fullName, "full name");
+    const isEmailEmpty = validateIfFormFieldsAreEmpty(document.register.email, "Email address");
+    const isDateEmpty = validateIfFormFieldsAreEmpty(document.register.dateOfBirth, "date of birth");
+
+    if (!isDateEmpty) {
+        isDateValid = validateDate();
     }
 
-    if (document.register.password.value == "") {
-        alert("Please provide password!");
-        document.register.password.focus();
-        valideForm = false;
-    }
-    if (document.register.fullName.value == "") {
-        alert("Please provide full name!");
-        document.register.fullName.focus();
-        valideForm = false;
-    }
-    if (document.register.email.value == "") {
-        alert("Please provide Email address!");
-        document.register.email.focus();
-        valideForm = false;
+    if (!isEmailEmpty) {
+        isEmailValid = emailValidation();
     }
 
-    if (document.register.dateOfBirth.value == "") {
-        alert("Please provide date of birth!");
-        document.register.dateOfBirth.focus();
-        valideForm = false;
+    if (!isPasswordEmpty) {
+        isPasswordValid = passwordValidation();
     }
 
-    let isEmailValid = emailValidation();
-    let isPasswordValid = passwordValidation();
-    let isDateValid = validateDate();
-
-    if (isEmailValid == true && isPasswordValid == true && isDateValid == true && valideForm == true) {
+    if (isEmailValid && isPasswordValid && isDateValid && !isUsernameEmpty && !isFullNameEmpty) {
         addUsernameAndPasswordToLocalStorage();
     }
 }

@@ -1,22 +1,22 @@
 function validateIogInParameters() {
     let isValid = false;
-    let user = document.getElementById("loginUsername").value;
-    let password = document.getElementById("loginPassword").value;
-    map = new Map(JSON.parse(localStorage.myMap));
-    map.forEach((value, key) => {
-        if (key === user && value === password) {
+    const user = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    const map = new Map(JSON.parse(localStorage.myMap));
+    if (map.has(user)) {
+        if (map.get(user) == password) {
             isValid = true;
         }
-    });
+    }
     return isValid;
 }
 
-function startGame() {
-    let isValidLogParameters = validateIogInParameters()
+function ifUserexistStartGame() { //make like story
+    const isValidLogParameters = validateIogInParameters()
     if (isValidLogParameters) {
-        document.getElementById('gameDiv').style.display = "block";
+        document.getElementById('gameDiv').style.display = '';
         document.getElementById('signInDiv').style.display = "none";
-    }else{
+    } else {
         alert("Username/password incorrect")
     }
 }

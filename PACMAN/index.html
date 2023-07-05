@@ -4,14 +4,14 @@
 <head></head>
 
 <body>
-  <div id="gameDiv">
-    SCORE:
-    <input id="lblScore" type="text" />
-    <br />
-    TIME:
-    <input id="lblTime" type="text" />
-    <br />
-    <canvas id="canvas" height="600" width="600"></canvas>
+  <div class=gameForm style="display:none;"  id="gameDiv">
+  SCORE:
+  <input id="lblScore" type="text" />
+  <br />
+  TIME:
+  <input id="lblTime" type="text" />
+  <br />
+  <canvas id="canvas" height="600" width="600"></canvas>
   </div>
 
   <div class=registrationForm style="display:none;" id="signUpDiv">
@@ -56,10 +56,11 @@
 
   <div class=welcome id="welcomeDiv">
     <form name="welcome">
+      <img src="pacman.png" />
       <input type="button" name="answer" value="Sign in" onclick="showSignInDiv()" />
-      <br>
+      <br />
       <input type="button" name="answer" value="Sign up" onclick="showSignUpDiv()" />
-      <br>
+      <br />
     </form>
   </div>
 
@@ -72,4 +73,5 @@
   <script type="text/javascript" src="code.js">
   </script>
 </body>
+
 </html>
