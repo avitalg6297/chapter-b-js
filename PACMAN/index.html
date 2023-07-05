@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
 
-<head></head>
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
 
 <body>
-  <div class=gameForm style="display:none;"  id="gameDiv">
-  SCORE:
-  <input id="lblScore" type="text" />
-  <br />
-  TIME:
-  <input id="lblTime" type="text" />
-  <br />
-  <canvas id="canvas" height="600" width="600"></canvas>
+  <div class=gameForm style="display:none;" id="gameDiv">
+    SCORE:
+    <input id="lblScore" type="text" />
+    <br />
+    TIME:
+    <input id="lblTime" type="text" />
+    <br />
+    <canvas id="canvas" height="600" width="600"></canvas>
   </div>
 
   <div class=registrationForm style="display:none;" id="signUpDiv">
@@ -36,12 +38,12 @@
       <br>
       <input type="date" id="dateOfBirth" name="dateOfBirth"><br>
       <br>
-      <input type="submit" name="Submit" value="Submit" />
+      <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Submit" />
     </form>
   </div>
 
   <div class=logInForm style="display:none;" id="signInDiv">
-    <form name="logIn" onsubmit="return startGame()">
+    <form name="logIn" onsubmit="return ifUserExistStartGame()">
       <label for="loginUsername">Username:</label>
       <br>
       <input type="text" id="loginUsername" name="loginUsername">
@@ -50,17 +52,25 @@
       <br>
       <input type="password" id="loginPassword" name="loginPassword">
       <br>
-      <input type="submit" name="Submit" value="Sign In" />
+      <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign In" />
     </form>
   </div>
 
   <div class=welcome id="welcomeDiv">
     <form name="welcome">
-      <img src="pacman.png" />
-      <input type="button" name="answer" value="Sign in" onclick="showSignInDiv()" />
-      <br />
-      <input type="button" name="answer" value="Sign up" onclick="showSignUpDiv()" />
-      <br />
+      <img src="pac-man-logo.png" alt="pacman" class="pacmanLogo" />
+      <div class="container">
+        <div class="center">
+          <input class="whiteToYellowButton  SignInButton" role="button" type="button" name="answer" value="Sign in"
+            onclick="showSignInDiv()" />
+        </div>
+      </div>
+      <div class="container">
+        <div class="center">
+          <input class="whiteToYellowButton" role="button" type="button" name="answer" value="Sign up"
+            onclick="showSignUpDiv()" />
+        </div>
+      </div>
     </form>
   </div>
 

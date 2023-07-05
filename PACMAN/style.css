@@ -1,7 +1,83 @@
-#canvas 
-{
+#canvas {
 	position: fixed;
 	width: 100%;
 	height: 35px;
 	background: white;
+}
+
+body {
+	background-color: #000;
+}
+
+.welcome {
+	display: flex;
+	justify-content: center;
+	height: 800px;
+}
+
+.pacmanLogo {
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
+
+.container {
+	height: 5rem;
+	position: relative;
+	border: 0.2rem solid black;
+}
+
+.center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+/* CSS */
+.whiteToYellowButton {
+	appearance: none;
+	background-color: #FFFFFF;
+	border-radius: 40em;
+	border-style: none;
+	box-shadow: #ADCFFF 0 -12px 6px inset;
+	box-sizing: border-box;
+	color: #000000;
+	cursor: pointer;
+	display: inline-block;
+	font-family: -apple-system, sans-serif;
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: -.24px;
+	margin: 0;
+	outline: none;
+	padding: 1rem 1.3rem;
+	quotes: auto;
+	text-align: center;
+	text-decoration: none;
+	transition: all .15s;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+}
+
+.whiteToYellowButton:hover {
+	background-color: #FFC229;
+	box-shadow: #FF6314 0 -6px 8px inset;
+	transform: scale(1.125);
+}
+
+.whiteToYellowButton:active {
+	transform: scale(1.025);
+}
+
+@media (min-width: 768px) {
+	.whiteToYellowButton {
+		font-size: 1.5rem;
+		padding: .75rem 2rem;
+	}
 }
