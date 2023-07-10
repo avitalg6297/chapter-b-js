@@ -1,32 +1,32 @@
-var context = canvas.getContext("2d");
-var shape = new Object();
+const context = canvas.getContext("2d");
+let shape = new Object();
 let ghosts = new Array();
-var board;
+let board;
 const stack = ["yellow", "blue", "pink", "red"];
-var score;
+let score;
 let life = 5;
-var pac_color;
-var start_time;
-var time_elapsed;
-var interval;
-var last_pressed_key;
+let pac_color;
+const start_time = new Date();;
+let time_elapsed;
+let interval;
+let last_pressed_key;
 
 Start();
 
 function Start() {
-	last_pressed_key = 3;
+	last_pressed_key = 3; 
 	board = new Array();
 	score = 0;
 	pac_color = "yellow";
-	var cnt = 100;
-	var food_remain = 50;
-	var pacman_remain = 1;
+	let cnt = 100;
+	let food_remain = 50;
+	let pacman_remain = 1;
 	let ghost_remain = 4;
-	start_time = new Date();
-	for (var i = 0; i < 10; i++) {
+	
+	for (let i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-		for (var j = 0; j < 10; j++) {
+		for (let j = 0; j < 10; j++) {
 			if ((i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 6 && j === 1) || (i === 6 && j === 2)) {
 				board[i][j] = 4;
 			}
@@ -44,7 +44,7 @@ function Start() {
 				}
 
 			} else if (board[i][j] != 5) {
-				var randomNum = Math.random();
+				const randomNum = Math.random();
 				if (randomNum <= 1.0 * food_remain / cnt) {
 					food_remain--;
 					board[i][j] = 1;
@@ -63,12 +63,13 @@ function Start() {
 		}
 	}
 	while (food_remain > 0) {
-		var emptyCell = findRandomEmptyCell(board);
+		const emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
 		food_remain--;
 	}
 	keysDown = {};
 	addEventListener("keydown", function (e) {
+		pac_color = "yellow";
 		keysDown[e.code] = true;
 		last_pressed_key = GetKeyPressed();
 		lastKeyPressed = GetKeyPressed();
@@ -81,8 +82,8 @@ function Start() {
 
 
 function findRandomEmptyCell(board) {
-	var i = Math.floor((Math.random() * 9) + 1);
-	var j = Math.floor((Math.random() * 9) + 1);
+	let i = Math.floor((Math.random() * 9) + 1);
+	let j = Math.floor((Math.random() * 9) + 1);
 	while (board[i][j] !== 0) {
 		i = Math.floor((Math.random() * 9) + 1);
 		j = Math.floor((Math.random() * 9) + 1);
@@ -108,16 +109,17 @@ function GetKeyPressed() {
 	}
 }
 
-function Draw(direction, newGhostPosition) {
+function Draw(direction) {
 	context.clearRect(0, 0, canvas.width, canvas.height); //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
-	for (var i = 0; i < 10; i++) {
-		for (var j = 0; j < 10; j++) {
-			var center = new Object();
+	for (let i = 0; i < 10; i++) {
+		for (let j = 0; j < 10; j++) {
+			const center = new Object();
 			center.x = i * 60 + 30;
 			center.y = j * 60 + 30;
 			if (board[i][j] === 2) {
+
 				if (direction === 1) {
 					context.beginPath();
 					context.arc(center.x, center.y, 30, 1.65 * Math.PI, 3.30 * Math.PI); // half circle
@@ -184,7 +186,7 @@ function Draw(direction, newGhostPosition) {
 
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
-	var x = GetKeyPressed();
+	let x = GetKeyPressed();
 	lastKeyPressed = x;
 	if (x === 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] !== 4) {
@@ -215,13 +217,10 @@ function UpdatePosition() {
 		life--;
 	}
 	board[shape.i][shape.j] = 2;
-	let ghost = ghosts[0];
-	let newGhostPosition = ghostAlgorithm(ghost, shape);
-	board[ghost.i][ghost.j] = ghost.k;
-	newGhostPosition.k = board[newGhostPosition.i][newGhostPosition.j];
-	ghosts.splice(0, 0, newGhostPosition);
-	board[newGhostPosition.i][newGhostPosition.j]= 5;
-	var currentTime = new Date();
+
+	putGhostInItsNewPositionANdUpdateGhostState();
+
+	let currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
@@ -310,11 +309,47 @@ function findNewPositionForGhost(directionsMap, newGhostPosition, ghost) {
 		let isValidDirection = isValidGhostDirection(directionsMap, randomDirection)
 		if (isValidDirection === 1) {
 			newGhostPosition = detectNewGhostPosition(randomDirection, newGhostPosition, ghost)
-			newPositionIsSet = true;
+			if (board[newGhostPosition.i][newGhostPosition.j] != 4) {
+				newPositionIsSet = true;
+			}
 		}
 	}
 	return newGhostPosition;
 }
+
+
+function putGhostInItsNewPositionANdUpdateGhostState() {
+	let ghost = ghosts[0];
+	let newGhostPosition = ghostAlgorithm(ghost, shape);
+	board[ghost.i][ghost.j] = ghost.k;
+
+	if (board[newGhostPosition.i][newGhostPosition.j] === 2) {
+		newGhostPosition.k = 0;
+		pac_color = "red";
+		board[newGhostPosition.i][newGhostPosition.j] = 5;
+		board[newGhostPosition.i][newGhostPosition.j] = 2;
+		if (board[newGhostPosition.i + 1][newGhostPosition.j] != 4) {
+			newGhostPosition.i = newGhostPosition.i + 1;
+			newGhostPosition.j = newGhostPosition.j;
+		} else if (board[newGhostPosition.i - 1][newGhostPosition.j] != 4) {
+			newGhostPosition.i = newGhostPosition.i - 1;
+			newGhostPosition.j = newGhostPosition.j;
+		} else if (board[newGhostPosition.i][newGhostPosition.j + 1] != 4) {
+			ewGhostPosition.i = newGhostPosition.i;
+			newGhostPosition.j = newGhostPosition.j + 1;
+		} else if (board[newGhostPosition.i][newGhostPosition.j - 1] != 4) {
+			ewGhostPosition.i = newGhostPosition.i;
+			newGhostPosition.j = newGhostPosition.j - 1;
+		}
+		score--;
+	}
+	else {
+		newGhostPosition.k = board[newGhostPosition.i][newGhostPosition.j];
+	}
+	ghosts.splice(0, 0, newGhostPosition);
+	board[newGhostPosition.i][newGhostPosition.j] = 5;
+}
+
 
 function randomNumber(min, max) {
 	return Math.floor(Math.random() * (max - min) + min);
@@ -356,3 +391,18 @@ function detectNewGhostPosition(direction, newGhostPosition, ghost) {
 	}
 	return newGhostPosition;
 }
+
+// function setDirectionMapDirectionsValues(directionsMap, direction, value) {
+// 	if (direction === 1) {
+// 		isValid = directionsMap.set("Up", value);
+// 	}
+// 	if (direction === 2) {
+// 		isValid = directionsMap.set("Down", value);
+// 	}
+// 	if (direction === 3) {
+// 		isValid = directionsMap.set("Left", value);
+// 	}
+// 	if (direction === 4) {
+// 		isValid = directionsMap.set("Right", value);
+// 	}
+// }
