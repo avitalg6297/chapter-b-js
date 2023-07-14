@@ -14,8 +14,6 @@ let specialCharacterHasNotBeenEaten = true;
 let ghostInterval;
 let spacialCharacterInterval;
 
-Start();
-
 function Start() {
 	console.log("start()");
 	lastPressedKey = 3;
@@ -194,7 +192,7 @@ function Draw(direction) {
 			} else if (board[i][j] === 4) {
 				context.beginPath();
 				context.rect(center.x - 30, center.y - 30, 60, 60);
-				context.fillStyle = "grey"; //color     
+				context.fillStyle = "white"; //color     
 				context.fill();
 			} else if (board[i][j] === 5) {
 				context.beginPath();
@@ -206,11 +204,11 @@ function Draw(direction) {
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
 				context.fillStyle = "purple"; //color
 				context.fill();
-			// } else if (board[i][j] === 7) {
-			// 	context.beginPath();
-			// 	context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-			// 	context.fillStyle = "blue"; //color
-			// 	context.fill();
+				// } else if (board[i][j] === 7) {
+				// 	context.beginPath();
+				// 	context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				// 	context.fillStyle = "blue"; //color
+				// 	context.fill();
 			}
 		}
 	}
@@ -254,14 +252,14 @@ function UpdatePosition() {
 		specialCharacter.i = undefined;
 		specialCharacter.j = undefined;
 		specialCharacterHasNotBeenEaten = false;
-	}if (board[shape.i][shape.j] === 7) {
-		life ++ ;
+	} if (board[shape.i][shape.j] === 7) {
+		life++;
 	}
 
 	board[shape.i][shape.j] = 2;
 
-	if(specialCharacterHasNotBeenEaten){
-	putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(specialCharacter);
+	if (specialCharacterHasNotBeenEaten) {
+		putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(specialCharacter);
 	}
 
 	for (let i = 0; i < 4; i++) {
@@ -286,7 +284,7 @@ function UpdatePosition() {
 }
 
 function putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(specialCharacter) {
-	console.log("putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState" )
+	console.log("putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState")
 	let newSpecialCharacterPosition = specialScoreCharacterAlgorithm(specialCharacter);
 
 	board[specialCharacter.i][specialCharacter.j] = specialCharacter.k;
@@ -298,7 +296,7 @@ function putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(speci
 }
 
 function specialScoreCharacterAlgorithm(specialCharacter) {
-	console.log("specialScoreCharacterAlgorithm " )
+	console.log("specialScoreCharacterAlgorithm ")
 	let newSpecialCharacterPosition = new Object();
 	let directionsMapForSpecialCharacter = new Map();
 	setDirectionsMapValues(specialCharacter, directionsMapForSpecialCharacter)
@@ -307,7 +305,7 @@ function specialScoreCharacterAlgorithm(specialCharacter) {
 }
 
 function findNewPositionForSpecialCharacter(directionsMapForSpecialCharacter, newSpecialCharacterPosition, specialCharacter) {
-	console.log("findNewPositionForSpecialCharacter " )
+	console.log("findNewPositionForSpecialCharacter ")
 	let newPositionIsSet = false;
 	let countRandom = 0;
 	while (!newPositionIsSet) {
@@ -315,12 +313,12 @@ function findNewPositionForSpecialCharacter(directionsMapForSpecialCharacter, ne
 		let isValidDirection = isValidGhostDirection(directionsMapForSpecialCharacter, randomDirection)
 		if (isValidDirection === 1) {
 			newSpecialCharacterPosition = detectNewGhostPosition(randomDirection, newSpecialCharacterPosition, specialCharacter)
-			if (board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 4 && board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 5 && board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 2 ) {
+			if (board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 4 && board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 5 && board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 2) {
 				newPositionIsSet = true;
 			}
-		}else{
-			countRandom ++;
-			if(countRandom == 2){
+		} else {
+			countRandom++;
+			if (countRandom == 2) {
 				newSpecialCharacterPosition.i = specialCharacter.i;
 				newSpecialCharacterPosition.j = specialCharacter.j;
 				newPositionIsSet = true;
@@ -331,7 +329,7 @@ function findNewPositionForSpecialCharacter(directionsMapForSpecialCharacter, ne
 }
 
 function ghostAlgorithm(ghost, pacman) {
-	console.log("ghostAlgorithm" )
+	console.log("ghostAlgorithm")
 	let newGhostPosition = new Object();
 	let directionsMap = new Map();
 
@@ -351,7 +349,7 @@ function ghostAlgorithm(ghost, pacman) {
 }
 
 function setDirectionsMapValues(ghost, directionsMap) {
-	console.log("setDirectionsMapValues " )
+	console.log("setDirectionsMapValues ")
 	if (ghost.i + 1 > 9) {
 		directionsMap.set("Right", 0);
 	} else {
@@ -378,7 +376,7 @@ function setDirectionsMapValues(ghost, directionsMap) {
 }
 
 function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGhostPosition, board, directionsMap) {
-	console.log(" placeGhostInNewPositionIfPacmanIsInSightVertically " )
+	console.log(" placeGhostInNewPositionIfPacmanIsInSightVertically ")
 	if (ghost.i < pacman.i) {
 		if (board[ghost.i + 1][ghost.j] != 4 && board[ghost.i + 1][ghost.j] != 5 && board[ghost.i + 1][ghost.j] != 6) {
 			newGhostPosition.i = ghost.i + 1;
@@ -390,7 +388,7 @@ function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGh
 		}
 	}
 	else if (ghost.i > pacman.i) {
-		if (board[ghost.i - 1][ghost.j] != 4 && board[ghost.i - 1][ghost.j] != 5 && board[ghost.i - 1][ghost.j] != 6 ) {
+		if (board[ghost.i - 1][ghost.j] != 4 && board[ghost.i - 1][ghost.j] != 5 && board[ghost.i - 1][ghost.j] != 6) {
 			newGhostPosition.i = ghost.i - 1;
 			newGhostPosition.j = ghost.j;
 		} else {
@@ -401,9 +399,9 @@ function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGh
 }
 
 function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, board, newGhostPosition, directionsMap) {
-	console.log("placeGhostInNewPositionIfPacmanIsInSighthHorizontally " )
+	console.log("placeGhostInNewPositionIfPacmanIsInSighthHorizontally ")
 	if (ghost.j < pacman.j) {
-		if (board[ghost.i][ghost.j + 1] != 4 && board[ghost.i][ghost.j + 1] != 5 && board[ghost.i][ghost.j + 1] != 6 ) {
+		if (board[ghost.i][ghost.j + 1] != 4 && board[ghost.i][ghost.j + 1] != 5 && board[ghost.i][ghost.j + 1] != 6) {
 			newGhostPosition.i = ghost.i;
 			newGhostPosition.j = ghost.j + 1;
 		} else {
@@ -412,7 +410,7 @@ function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, bo
 		}
 	}
 	else if (ghost.j > pacman.j) {
-		if (board[ghost.i][ghost.j - 1] != 4 && board[ghost.i][ghost.j - 1] != 5 && board[ghost.i][ghost.j - 1] != 6 ) {
+		if (board[ghost.i][ghost.j - 1] != 4 && board[ghost.i][ghost.j - 1] != 5 && board[ghost.i][ghost.j - 1] != 6) {
 			newGhostPosition.i = ghost.i;
 			newGhostPosition.j = ghost.j - 1;
 		} else {
@@ -423,21 +421,21 @@ function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, bo
 }
 
 function findNewPositionForGhost(directionsMap, newGhostPosition, ghost) {
-	console.log("findNewPositionForGhost " )
+	console.log("findNewPositionForGhost ")
 	let countRandom = 0;
 	let newPositionIsSet = false;
 	while (!newPositionIsSet) {
 		let randomDirection = randomNumber(1, 4);
 		let isValidDirection = isValidGhostDirection(directionsMap, randomDirection)
-		console.log("is valid direction == "+ isValidDirection)
+		console.log("is valid direction == " + isValidDirection)
 		if (isValidDirection === 1) {
 			newGhostPosition = detectNewGhostPosition(randomDirection, newGhostPosition, ghost)
-			if (board[newGhostPosition.i][newGhostPosition.j] != 4 && board[newGhostPosition.i][newGhostPosition.j] != 5 && board[newGhostPosition.i][newGhostPosition.j] != 6 ) {
+			if (board[newGhostPosition.i][newGhostPosition.j] != 4 && board[newGhostPosition.i][newGhostPosition.j] != 5 && board[newGhostPosition.i][newGhostPosition.j] != 6) {
 				newPositionIsSet = true;
 			}
-		}else{
-			countRandom ++;
-			if(countRandom == 2){
+		} else {
+			countRandom++;
+			if (countRandom == 2) {
 				newGhostPosition.i = ghost.i;
 				newGhostPosition.j = ghost.j;
 				newPositionIsSet = true;
@@ -474,7 +472,7 @@ function putGhostInItsNewPositionANdUpdateGhostState(ghostNumber) {
 
 
 function updatePacmanState() {
-	console.log("updatePacmanState " )
+	console.log("updatePacmanState ")
 	const emptyCell = findRandomEmptyCell(board);
 	shape.i = emptyCell[0];
 	shape.j = emptyCell[1];
@@ -483,12 +481,12 @@ function updatePacmanState() {
 
 
 function randomNumber(min, max) {
-	console.log("randomNumber " )
+	console.log("randomNumber ")
 	return Math.floor(Math.random() * (max - min) + min);
 }
 
 function isValidGhostDirection(directionsMap, direction) {
-	console.log("isValidGhostDirection " )
+	console.log("isValidGhostDirection ")
 	let isValid
 	if (direction === 1) {
 		isValid = directionsMap.get("Up");
@@ -506,7 +504,7 @@ function isValidGhostDirection(directionsMap, direction) {
 }
 
 function detectNewGhostPosition(direction, newGhostPosition, ghost) {
-	console.log("detectNewGhostPosition" )
+	console.log("detectNewGhostPosition")
 	if (direction === 1) {
 		newGhostPosition.i = ghost.i;
 		newGhostPosition.j = ghost.j - 1;

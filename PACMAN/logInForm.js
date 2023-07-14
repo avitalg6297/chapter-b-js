@@ -1,4 +1,4 @@
-function validateIogInParameters() {
+function validateLogInParameters() {
     let isValid = false;
     const user = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
@@ -12,10 +12,11 @@ function validateIogInParameters() {
 }
 
 function ifUserExistStartGame() { //make like story
-    const isValidLogParameters = validateIogInParameters()
+    const isValidLogParameters = validateLogInParameters()
     if (isValidLogParameters) {
-        document.getElementById('gameDiv').style.display = '';
+        document.getElementById('gameDiv').style.display = 'block';
         document.getElementById('signInDiv').style.display = "none";
+        Start();
         window.addEventListener('beforeunload', (event) => {
             // Cancel the event as stated by the standard.
             event.preventDefault();

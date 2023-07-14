@@ -6,7 +6,8 @@
 </head>
 
 <body>
-  <div class=gameForm style="display:none;" id="gameDiv">
+
+  <div class="gameDiv" style="display:none;" id="gameDiv">
     SCORE:
     <input id="lblScore" type="text" />
     <br />
@@ -16,47 +17,41 @@
     <canvas id="canvas" height="600" width="600"></canvas>
   </div>
 
+
   <div class=registrationForm style="display:none;" id="signUpDiv">
     <form name="register" onsubmit="return validate()">
-      <label for="username">Username:</label>
       <br>
-      <input type="text" id="username" name="username">
+      <input type="text" class="formInput" id="username" placeholder="Username" name="username">
       <br>
-      <label for="password">Password:</label>
+      <input type="password" class="formInput" id="password" placeholder="Password" name="password">
       <br>
-      <input type="password" id="password" name="password">
+      <input type="text" class="formInput" id="fullName" placeholder="Full name" name="fullName">
       <br>
-      <label for="fullName">Full name:</label>
+      <input type="email" class="formInput" id="email" placeholder="Email address" name="email">
       <br>
-      <input type="text" id="fullName" name="fullName">
+      <input type="date" class="formInput" id="dateOfBirth" name="dateOfBirth"><br>
       <br>
-      <label for="email">Email address:</label>
-      <br>
-      <input type="email" id="email" name="email">
-      <br>
-      <label for="dateOfBirth">Date of birth:</label>
-      <br>
-      <input type="date" id="dateOfBirth" name="dateOfBirth"><br>
-      <br>
-      <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Submit" />
+      <div class="signUpCenter">
+        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign up" 
+        onclick="showSignInDiv()" />
+      </div>
     </form>
   </div>
 
   <div class=logInForm style="display:none;" id="signInDiv">
     <form name="logIn" onsubmit="return ifUserExistStartGame()">
-      <label for="loginUsername">Username:</label>
       <br>
-      <input type="text" id="loginUsername" name="loginUsername">
+      <input type="text" class="formInput" id="loginUsername" placeholder="Username" name="loginUsername">
       <br>
-      <label for="loginPassword">Password:</label>
+      <input type="password" class="formInput" id="loginPassword" placeholder="Password" name="loginPassword">
       <br>
-      <input type="password" id="loginPassword" name="loginPassword">
-      <br>
-      <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign In" />
+      <div class="center">
+        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign in" />
+      </div>
     </form>
   </div>
 
-  <div class=welcome id="welcomeDiv">
+  <div class=welcome style="display:block;" id="welcomeDiv">
     <form name="welcome">
       <img src="pac-man-logo.png" alt="pacman" class="pacmanLogo" />
       <div class="container">
