@@ -4,7 +4,7 @@ function settingsValidate() {
     let isnumberOfGhostsValid = numberOfGhostsValidate();
 
     if (isNumberOfBallsValid && isgameDurationValidateValid && isnumberOfGhostsValid) {
-        setValuesToLocalStorageIfTheyWereMadeByUserOtherwiseSetDafault();
+        // setValuesToLocalStorageIfTheyWereMadeByUserOtherwiseSetDafault();
         startGameWithSettings();
     }
 }
@@ -39,7 +39,41 @@ function numberOfGhostsValidate() {
     };
 }
 
-function setValuesToLocalStorageIfTheyWereMadeByUserOtherwiseSetDafault() {
+// function setValuesToLocalStorageIfTheyWereMadeByUserOtherwiseSetDafault() {
+//     let numberOfBalls = document.getElementById("balls").value;
+//     if (numberOfBalls == '') {
+//         numberOfBalls = 50;
+//     }
+//     let gameDuration = document.getElementById("gameDuration").value;
+//     if (gameDuration == '') {
+//         gameDuration = 60;
+//     }
+//     let numberOfGhosts = document.getElementById("ghosts").value;
+//     if (numberOfGhosts == '') {
+//         numberOfGhosts = 4;
+//     }
+//     if (typeof (Storage) !== "undefined") {
+//         const numberOfBallsFromLocalStorage = JSON.parse(localStorage.getItem("numberOfBalls"));
+//         const gameDurationFromLocalStorage = JSON.parse(localStorage.getItem("gameDuration"));
+//         const numberOfGhostsFromLocalStorage = JSON.parse(localStorage.getItem("numberOfGhosts"));
+//         addUsersChoiseToLocalStorage(numberOfBallsFromLocalStorage, numberOfBalls, "numberOfBalls");
+//         addUsersChoiseToLocalStorage(gameDurationFromLocalStorage, gameDuration, "gameDuration");
+//         addUsersChoiseToLocalStorage(numberOfGhostsFromLocalStorage, numberOfGhosts, "numberOfGhosts");
+
+//     } else {
+//         alert("Sorry, your browser does not support Web Storage...");
+//     }
+// }
+
+
+function addUsersChoiseToLocalStorage(valueInLocalStorage, usersChoise, collectionName) {
+    if (valueInLocalStorage != null) {
+        localStorage.removeItem(collectionName);
+    }
+    localStorage.setItem(collectionName, JSON.stringify(usersChoise));
+}
+
+function startGameWithSettings(){
     let numberOfBalls = document.getElementById("balls").value;
     if (numberOfBalls == '') {
         numberOfBalls = 50;
@@ -52,31 +86,9 @@ function setValuesToLocalStorageIfTheyWereMadeByUserOtherwiseSetDafault() {
     if (numberOfGhosts == '') {
         numberOfGhosts = 4;
     }
-    if (typeof (Storage) !== "undefined") {
-        const numberOfBallsFromLocalStorage = JSON.parse(localStorage.getItem("numberOfBalls"));
-        const gameDurationFromLocalStorage = JSON.parse(localStorage.getItem("gameDuration"));
-        const numberOfGhostsFromLocalStorage = JSON.parse(localStorage.getItem("numberOfGhosts"));
-        addUsersChoiseToLocalStorage(numberOfBallsFromLocalStorage, numberOfBalls, "numberOfBalls");
-        addUsersChoiseToLocalStorage(gameDurationFromLocalStorage, gameDuration, "gameDuration");
-        addUsersChoiseToLocalStorage(numberOfGhostsFromLocalStorage, numberOfGhosts, "numberOfGhosts");
-
-    } else {
-        alert("Sorry, your browser does not support Web Storage...");
-    }
-}
-
-
-function addUsersChoiseToLocalStorage(valueInLocalStorage, usersChoise, collectionName) {
-    if (valueInLocalStorage != null) {
-        localStorage.removeItem(collectionName);
-    }
-    localStorage.setItem(collectionName, JSON.stringify(usersChoise));
-}
-
-function startGameWithSettings(){
     document.getElementById('gameDiv').style.display = 'block';
         document.getElementById('settingsDiv').style.display = "none";
-        Start();
+        Start(numberOfBalls,numberOfGhosts);
         window.addEventListener('beforeunload', (event) => {
             // Cancel the event as stated by the standard.
             event.preventDefault();

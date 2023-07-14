@@ -8,12 +8,18 @@
 <body>
 
   <div class="gameDiv" style="display:none;" id="gameDiv">
-    SCORE:
+    <label>SCORE:</label>
+    <br>
     <input id="lblScore" type="text" />
-    <br />
-    TIME:
+    <br/>
+    <label>TIME:</label>
+    <br>
     <input id="lblTime" type="text" />
-    <br />
+    <br/>
+    <label>Username:</label>
+    <br>
+    <input id="lblUsername" type="text" />
+    <br/>
     <canvas id="canvas" height="600" width="600"></canvas>
   </div>
 
@@ -41,11 +47,11 @@
   <div class=settingsForm style="display:none;" id="settingsDiv">
     <form name="settings" onsubmit="return settingsValidate()">
       <br>
-      <input type="text" class="formInput" id="balls" placeholder="Number of balls" name="balls">
+      <input type="number" class="formInput" id="balls" placeholder="Number of balls" name="balls">
       <br>
-      <input type="text" class="formInput" id="gameDuration" placeholder="Game duration" name="gameDuration">
+      <input type="number" class="formInput" id="gameDuration" placeholder="Game duration" name="gameDuration">
       <br>
-      <input type="txt" class="formInput" id="ghosts" placeholder="Number of ghosts" name="ghosts">
+      <input type="number" class="formInput" id="ghosts" placeholder="Number of ghosts" name="ghosts">
       <br>
       <div class="center">
         <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Start game"/>
