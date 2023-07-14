@@ -14,9 +14,8 @@ function validateLogInParameters() {
 function ifUserExistStartGame() { //make like story
     const isValidLogParameters = validateLogInParameters()
     if (isValidLogParameters) {
-        document.getElementById('gameDiv').style.display = 'block';
+        document.getElementById('settingsDiv').style.display = 'block';
         document.getElementById('signInDiv').style.display = "none";
-        Start();
         window.addEventListener('beforeunload', (event) => {
             // Cancel the event as stated by the standard.
             event.preventDefault();
@@ -27,3 +26,21 @@ function ifUserExistStartGame() { //make like story
         alert("Username/password incorrect")
     }
 }
+
+
+// function ifUserExistStartGame() { //make like story
+//     const isValidLogParameters = validateLogInParameters()
+//     if (isValidLogParameters) {
+//         document.getElementById('gameDiv').style.display = 'block';
+//         document.getElementById('signInDiv').style.display = "none";
+//         Start();
+//         window.addEventListener('beforeunload', (event) => {
+//             // Cancel the event as stated by the standard.
+//             event.preventDefault();
+//             // Chrome requires returnValue to be set.
+//             event.returnValue = '';
+//           });
+//     } else {
+//         alert("Username/password incorrect")
+//     }
+// }

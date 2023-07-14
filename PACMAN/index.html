@@ -38,6 +38,21 @@
     </form>
   </div>
 
+  <div class=settingsForm style="display:none;" id="settingsDiv">
+    <form name="settings" onsubmit="return settingsValidate()">
+      <br>
+      <input type="text" class="formInput" id="balls" placeholder="Number of balls" name="balls">
+      <br>
+      <input type="text" class="formInput" id="gameDuration" placeholder="Game duration" name="gameDuration">
+      <br>
+      <input type="txt" class="formInput" id="ghosts" placeholder="Number of ghosts" name="ghosts">
+      <br>
+      <div class="center">
+        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Start game"/>
+      </div>
+    </form>
+  </div>
+
   <div class=logInForm style="display:none;" id="signInDiv">
     <form name="logIn" onsubmit="return ifUserExistStartGame()">
       <br>
@@ -74,6 +89,8 @@
   <script type="text/javascript" src="logInForm.js">
   </script>
   <script type="text/javascript" src="registrationForm.js">
+  </script>
+  <script type="text/javascript" src="settingsForm.js">
   </script>
   <script type="text/javascript" src="code.js">
   </script>

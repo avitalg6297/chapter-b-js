@@ -252,8 +252,8 @@ function UpdatePosition() {
 		specialCharacter.i = undefined;
 		specialCharacter.j = undefined;
 		specialCharacterHasNotBeenEaten = false;
-	} if (board[shape.i][shape.j] === 7) {
-		life++;
+	// } if (board[shape.i][shape.j] === 7) {
+	// 	life++;
 	}
 
 	board[shape.i][shape.j] = 2;
@@ -457,6 +457,7 @@ function putGhostInItsNewPositionANdUpdateGhostState(ghostNumber) {
 		newGhostPosition.k = 0;
 		pacColor = "red";
 		board[newGhostPosition.i][newGhostPosition.j] = 5;
+		life --;
 
 		updatePacmanState();
 		score--;
