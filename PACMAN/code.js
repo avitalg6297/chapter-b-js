@@ -1,8 +1,8 @@
 const context = canvas.getContext("2d");
 let shape = new Object();
 let ghosts = new Array();
+let specialCharacter = new Object();
 let board;
-const stack = ["yellow", "blue", "pink", "red"];
 let score;
 let life = 5;
 let pacColor;
@@ -10,10 +10,14 @@ const startTime = new Date();;
 let timeElapsed;
 let interval;
 let lastPressedKey;
+let specialCharacterHasNotBeenEaten = true;
+let ghostInterval;
+let spacialCharacterInterval;
 
 Start();
 
 function Start() {
+	console.log("start()");
 	lastPressedKey = 3;
 	board = new Array();
 	score = 0;
@@ -22,11 +26,20 @@ function Start() {
 	let foodRemain = 50;
 	let pacmanRemain = 1;
 	let ghostRemain = 4;
+	let medicationsRemain = 5;
+	let specialCharacterRemain = 1;
 
 	for (let i = 0; i < 10; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (let j = 0; j < 10; j++) {
+			if (i === 5 && j === 5) {
+				board[i][i] = 6;
+				specialCharacter.i = i;
+				specialCharacter.j = j;
+				specialCharacter.k = 0;
+				specialCharacterRemain--;
+			}
 			if ((i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 6 && j === 1) || (i === 6 && j === 2)) {
 				board[i][j] = 4;
 			}
@@ -62,6 +75,12 @@ function Start() {
 			}
 		}
 	}
+	// while (medicationsRemain > 0){
+	// 	const emptyCell = findRandomEmptyCell(board);
+	// 	board[emptyCell[0]][emptyCell[1]] = 7;
+	// 	medicationsRemain --;
+	// }
+
 	while (foodRemain > 0) {
 		const emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
@@ -80,8 +99,8 @@ function Start() {
 	interval = setInterval(UpdatePosition, 250);
 }
 
-
 function findRandomEmptyCell(board) {
+	console.log(" findRandomEmptyCell");
 	let i = Math.floor((Math.random() * 9) + 1);
 	let j = Math.floor((Math.random() * 9) + 1);
 	while (board[i][j] !== 0) {
@@ -95,6 +114,7 @@ function findRandomEmptyCell(board) {
  * @return {number}
  */
 function GetKeyPressed() {
+	console.log("GetKeyPressed")
 	if (keysDown['ArrowUp']) {
 		return 1;
 	}
@@ -110,6 +130,7 @@ function GetKeyPressed() {
 }
 
 function Draw(direction) {
+	console.log("Draw")
 	context.clearRect(0, 0, canvas.width, canvas.height); //clean board
 	lblScore.value = score;
 	lblTime.value = timeElapsed;
@@ -180,12 +201,23 @@ function Draw(direction) {
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
 				context.fillStyle = "pink"; //color
 				context.fill();
+			} else if (board[i][j] === 6) {
+				context.beginPath();
+				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.fillStyle = "purple"; //color
+				context.fill();
+			// } else if (board[i][j] === 7) {
+			// 	context.beginPath();
+			// 	context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+			// 	context.fillStyle = "blue"; //color
+			// 	context.fill();
 			}
 		}
 	}
 }
 
 function UpdatePosition() {
+	console.log(" UpdatePosition() ")
 	board[shape.i][shape.j] = 0;
 	let x = GetKeyPressed();
 	lastKeyPressed = x;
@@ -214,28 +246,92 @@ function UpdatePosition() {
 
 	}
 	if (board[shape.i][shape.j] === 5) {
-		score--;
+		score = score - 10;
 		life--;
 	}
+	if (board[shape.i][shape.j] === 6) {
+		score = score + 50;
+		specialCharacter.i = undefined;
+		specialCharacter.j = undefined;
+		specialCharacterHasNotBeenEaten = false;
+	}if (board[shape.i][shape.j] === 7) {
+		life ++ ;
+	}
+
 	board[shape.i][shape.j] = 2;
 
+	if(specialCharacterHasNotBeenEaten){
+	putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(specialCharacter);
+	}
 
-	putGhostInItsNewPositionANdUpdateGhostState(0);
+	for (let i = 0; i < 4; i++) {
+		putGhostInItsNewPositionANdUpdateGhostState(i, specialCharacter, specialCharacterHasNotBeenEaten);
+	}
 
 	let currentTime = new Date();
 	timeElapsed = (currentTime - startTime) / 1000;
-	if (score >= 20 && E <= 10) {
+	if (score >= 20 && timeElapsed <= 10) {
 		pacColor = "green";
 	}
 	if (score === 50) {
 		window.clearInterval(interval);
 		window.alert("Game completed");
+	}
+	if (life === 0) {
+		window.clearInterval(interval);
+		window.alert("Game Over");
 	} else {
 		Draw(lastPressedKey);
 	}
 }
 
+function putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(specialCharacter) {
+	console.log("putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState" )
+	let newSpecialCharacterPosition = specialScoreCharacterAlgorithm(specialCharacter);
+
+	board[specialCharacter.i][specialCharacter.j] = specialCharacter.k;
+
+	newSpecialCharacterPosition.k = board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j];
+	specialCharacter.i = newSpecialCharacterPosition.i;
+	specialCharacter.j = newSpecialCharacterPosition.j;
+	board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] = 6;
+}
+
+function specialScoreCharacterAlgorithm(specialCharacter) {
+	console.log("specialScoreCharacterAlgorithm " )
+	let newSpecialCharacterPosition = new Object();
+	let directionsMapForSpecialCharacter = new Map();
+	setDirectionsMapValues(specialCharacter, directionsMapForSpecialCharacter)
+	newSpecialCharacterPosition = findNewPositionForSpecialCharacter(directionsMapForSpecialCharacter, newSpecialCharacterPosition, specialCharacter);
+	return newSpecialCharacterPosition;
+}
+
+function findNewPositionForSpecialCharacter(directionsMapForSpecialCharacter, newSpecialCharacterPosition, specialCharacter) {
+	console.log("findNewPositionForSpecialCharacter " )
+	let newPositionIsSet = false;
+	let countRandom = 0;
+	while (!newPositionIsSet) {
+		let randomDirection = randomNumber(1, 4);
+		let isValidDirection = isValidGhostDirection(directionsMapForSpecialCharacter, randomDirection)
+		if (isValidDirection === 1) {
+			newSpecialCharacterPosition = detectNewGhostPosition(randomDirection, newSpecialCharacterPosition, specialCharacter)
+			if (board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 4 && board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 5 && board[newSpecialCharacterPosition.i][newSpecialCharacterPosition.j] != 2 ) {
+				newPositionIsSet = true;
+			}
+		}else{
+			countRandom ++;
+			if(countRandom == 2){
+				newSpecialCharacterPosition.i = specialCharacter.i;
+				newSpecialCharacterPosition.j = specialCharacter.j;
+				newPositionIsSet = true;
+			}
+		}
+	}
+	return newSpecialCharacterPosition;
+}
+
 function ghostAlgorithm(ghost, pacman) {
+	console.log("ghostAlgorithm" )
 	let newGhostPosition = new Object();
 	let directionsMap = new Map();
 
@@ -255,6 +351,7 @@ function ghostAlgorithm(ghost, pacman) {
 }
 
 function setDirectionsMapValues(ghost, directionsMap) {
+	console.log("setDirectionsMapValues " )
 	if (ghost.i + 1 > 9) {
 		directionsMap.set("Right", 0);
 	} else {
@@ -281,8 +378,9 @@ function setDirectionsMapValues(ghost, directionsMap) {
 }
 
 function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGhostPosition, board, directionsMap) {
+	console.log(" placeGhostInNewPositionIfPacmanIsInSightVertically " )
 	if (ghost.i < pacman.i) {
-		if (board[ghost.i + 1][ghost.j] != 4 && board[ghost.i + 1][ghost.j] != 5) {
+		if (board[ghost.i + 1][ghost.j] != 4 && board[ghost.i + 1][ghost.j] != 5 && board[ghost.i + 1][ghost.j] != 6) {
 			newGhostPosition.i = ghost.i + 1;
 			newGhostPosition.j = ghost.j;
 		}
@@ -292,7 +390,7 @@ function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGh
 		}
 	}
 	else if (ghost.i > pacman.i) {
-		if (board[ghost.i - 1][ghost.j] != 4 && board[ghost.i - 1][ghost.j] != 5) {
+		if (board[ghost.i - 1][ghost.j] != 4 && board[ghost.i - 1][ghost.j] != 5 && board[ghost.i - 1][ghost.j] != 6 ) {
 			newGhostPosition.i = ghost.i - 1;
 			newGhostPosition.j = ghost.j;
 		} else {
@@ -303,8 +401,9 @@ function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGh
 }
 
 function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, board, newGhostPosition, directionsMap) {
+	console.log("placeGhostInNewPositionIfPacmanIsInSighthHorizontally " )
 	if (ghost.j < pacman.j) {
-		if (board[ghost.i][ghost.j + 1] != 4 && board[ghost.i][ghost.j + 1] != 5) {
+		if (board[ghost.i][ghost.j + 1] != 4 && board[ghost.i][ghost.j + 1] != 5 && board[ghost.i][ghost.j + 1] != 6 ) {
 			newGhostPosition.i = ghost.i;
 			newGhostPosition.j = ghost.j + 1;
 		} else {
@@ -313,7 +412,7 @@ function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, bo
 		}
 	}
 	else if (ghost.j > pacman.j) {
-		if (board[ghost.i][ghost.j - 1] != 4 && board[ghost.i][ghost.j - 1] != 5) {
+		if (board[ghost.i][ghost.j - 1] != 4 && board[ghost.i][ghost.j - 1] != 5 && board[ghost.i][ghost.j - 1] != 6 ) {
 			newGhostPosition.i = ghost.i;
 			newGhostPosition.j = ghost.j - 1;
 		} else {
@@ -324,13 +423,23 @@ function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, bo
 }
 
 function findNewPositionForGhost(directionsMap, newGhostPosition, ghost) {
+	console.log("findNewPositionForGhost " )
+	let countRandom = 0;
 	let newPositionIsSet = false;
 	while (!newPositionIsSet) {
 		let randomDirection = randomNumber(1, 4);
 		let isValidDirection = isValidGhostDirection(directionsMap, randomDirection)
+		console.log("is valid direction == "+ isValidDirection)
 		if (isValidDirection === 1) {
 			newGhostPosition = detectNewGhostPosition(randomDirection, newGhostPosition, ghost)
-			if (board[newGhostPosition.i][newGhostPosition.j] != 4 && board[newGhostPosition.i][newGhostPosition.j] != 5) {
+			if (board[newGhostPosition.i][newGhostPosition.j] != 4 && board[newGhostPosition.i][newGhostPosition.j] != 5 && board[newGhostPosition.i][newGhostPosition.j] != 6 ) {
+				newPositionIsSet = true;
+			}
+		}else{
+			countRandom ++;
+			if(countRandom == 2){
+				newGhostPosition.i = ghost.i;
+				newGhostPosition.j = ghost.j;
 				newPositionIsSet = true;
 			}
 		}
@@ -340,27 +449,32 @@ function findNewPositionForGhost(directionsMap, newGhostPosition, ghost) {
 
 
 function putGhostInItsNewPositionANdUpdateGhostState(ghostNumber) {
-		let ghost = ghosts[ghostNumber];
-		let newGhostPosition = ghostAlgorithm(ghost, shape);
-		board[ghost.i][ghost.j] = ghost.k;
+	console.log("putGhostInItsNewPositionANdUpdateGhostState " + ghostNumber)
+	let ghost = ghosts[ghostNumber];
+	let newGhostPosition = ghostAlgorithm(ghost, shape);
+	board[ghost.i][ghost.j] = ghost.k;
+	console.log("ghost number " + ghostNumber + "old position " + ghost.i + "," + ghost.j);
 
-		if (board[newGhostPosition.i][newGhostPosition.j] === 2) {
-			newGhostPosition.k = 0;
-			pacColor = "red";
-			board[newGhostPosition.i][newGhostPosition.j] = 5;
-
-			updatePacmanState()
-			score--;
-		}
-		else {
-			newGhostPosition.k = board[newGhostPosition.i][newGhostPosition.j];
-		}
-		ghosts.splice(ghostNumber, 0, newGhostPosition);
+	if (board[newGhostPosition.i][newGhostPosition.j] === 2) {
+		newGhostPosition.k = 0;
+		pacColor = "red";
 		board[newGhostPosition.i][newGhostPosition.j] = 5;
+
+		updatePacmanState();
+		score--;
 	}
+	else {
+		newGhostPosition.k = board[newGhostPosition.i][newGhostPosition.j];
+	}
+
+	ghosts[ghostNumber] = newGhostPosition;
+	board[newGhostPosition.i][newGhostPosition.j] = 5;
+	console.log("ghost number " + ghostNumber + "new position " + newGhostPosition.i + "," + newGhostPosition.j);
+}
 
 
 function updatePacmanState() {
+	console.log("updatePacmanState " )
 	const emptyCell = findRandomEmptyCell(board);
 	shape.i = emptyCell[0];
 	shape.j = emptyCell[1];
@@ -369,10 +483,12 @@ function updatePacmanState() {
 
 
 function randomNumber(min, max) {
+	console.log("randomNumber " )
 	return Math.floor(Math.random() * (max - min) + min);
 }
 
 function isValidGhostDirection(directionsMap, direction) {
+	console.log("isValidGhostDirection " )
 	let isValid
 	if (direction === 1) {
 		isValid = directionsMap.get("Up");
@@ -390,6 +506,7 @@ function isValidGhostDirection(directionsMap, direction) {
 }
 
 function detectNewGhostPosition(direction, newGhostPosition, ghost) {
+	console.log("detectNewGhostPosition" )
 	if (direction === 1) {
 		newGhostPosition.i = ghost.i;
 		newGhostPosition.j = ghost.j - 1;
