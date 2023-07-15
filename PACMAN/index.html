@@ -8,24 +8,27 @@
 <body>
 
   <div class="gameDiv" style="display:none;" id="gameDiv">
+    <label>USERNAME:</label>
+    <br>
+    <input id="lblUsername" type="text" />
+    <br />
     <label>SCORE:</label>
     <br>
     <input id="lblScore" type="text" />
-    <br/>
+    <br />
     <label>TIME:</label>
     <br>
     <input id="lblTime" type="text" />
-    <br/>
-    <label>Username:</label>
+    <br />
+    <label>LIFE:</label>
     <br>
-    <input id="lblUsername" type="text" />
-    <br/>
+    <input id="lblLife" type="text" />
+    <br />
     <canvas id="canvas" height="600" width="600"></canvas>
   </div>
 
-
   <div class=registrationForm style="display:none;" id="signUpDiv">
-    <form name="register" onsubmit="return validate()">
+    <form name="register" onsubmit="return goToMenuSettingsFormIfRegistrationFormIsVallid()">
       <br>
       <input type="text" class="formInput" id="username" placeholder="Username" name="username">
       <br>
@@ -38,8 +41,7 @@
       <input type="date" class="formInput" id="dateOfBirth" name="dateOfBirth"><br>
       <br>
       <div class="signUpCenter">
-        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign up" 
-        onclick="showSignInDiv()" />
+        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign up" />
       </div>
     </form>
   </div>
@@ -54,7 +56,7 @@
       <input type="number" class="formInput" id="ghosts" placeholder="Number of ghosts" name="ghosts">
       <br>
       <div class="center">
-        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Start game"/>
+        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Start game" />
       </div>
     </form>
   </div>
@@ -68,6 +70,24 @@
       <br>
       <div class="center">
         <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign in" />
+      </div>
+    </form>
+  </div>
+
+  <div class=gameMenuForm style="display:none;" id="gameMenuDiv">
+    <form name="gameMenu">
+      <img src="pac-man-logo.png" alt="pacman" class="pacmanLogo" />
+      <div class="container">
+        <div class="center">
+          <input class="whiteToYellowButton  SignInButton" role="button" type="button" name="answer" value="Settings"
+            onclick="showSettingsDiv()" />
+        </div>
+      </div>
+      <div class="container">
+        <div class="center">
+          <input class="whiteToYellowButton" role="button" type="button" name="answer" value="Start Game"
+            onclick="showGameDiv()" />
+        </div>
       </div>
     </form>
   </div>
@@ -99,6 +119,8 @@
   <script type="text/javascript" src="settingsForm.js">
   </script>
   <script type="text/javascript" src="code.js">
+  </script>
+  <script type="text/javascript" src="gameMenuForm.js">
   </script>
 </body>
 

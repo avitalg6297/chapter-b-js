@@ -1,3 +1,6 @@
+let messageForInvalidFields = new Array();
+messageForInvalidFields.push("There were some probloms with your registration form: ");
+
 function addUsernameAndPasswordToLocalStorage() {
     const user = document.getElementById("username").value;
     const password = document.getElementById("password").value;
@@ -13,7 +16,7 @@ function addUsernameAndPasswordToLocalStorage() {
             }
 
         } else {
-            initializelocalStorageIfEmpty(user, password)
+            initializelocalStorageIfEmpty(user, password);
         }
     } else {
         alert("Sorry, your browser does not support Web Storage...");
@@ -24,8 +27,7 @@ function checkIfUsernameExistsInLocalStorage(userNamesCollection, user) {
     const arrayLength = userNamesCollection.length;
     for (let i = 0; i < arrayLength; i++) {
         if (userNamesCollection[i] === user) {
-            alert("User name already exist");
-            document.register.username.focus();
+            messageForInvalidFields.push("User name already exist");
             return true;
         }
     }
@@ -52,8 +54,7 @@ function emailValidation() {
     const stringToValidate = document.getElementById("email").value;
     const isEmailValid = validateEmail(stringToValidate);
     if (isEmailValid === null) {
-        alert("Email address is invalid");
-        document.register.email.focus();
+        messageForInvalidFields.push("email address is invalid");
         return false;
     } else {
         return true;
@@ -66,8 +67,7 @@ function validateDate() {
     if (dateToValidate < today) {
         return true;
     } else {
-        alert("date of birth is invalid, looks like you were born in the future ;)");
-        document.register.dateOfBirth.focus();
+        messageForInvalidFields.push("date of birth is invalid, looks like you were born in the future ;)");
         return false;
     }
 }
@@ -87,22 +87,21 @@ function passwordValidation() {
     if ( stringToValidate.length > 2 && pattern.test(stringToValidate)) {
         return true;
     } else {
-        alert("password is invalid - please use upper and lower case chars, digits and special symbols");
-        document.register.password.focus();
+        messageForInvalidFields.push("password is invalid - please use upper and lower case chars, digits and special symbols");
         return false;
     }
 }
 
 function validateIfFormFieldsAreEmpty(fieldToCheck, fieldName) {
     if (fieldToCheck.value == "") {
-        alert("Please provide " + fieldName + "!");
-        fieldToCheck.focus();
+        messageForInvalidFields.push("Please provide " + fieldName + "!");
         return true;
     }
     return false;
 }
 
 function validate() {
+    let isValid  = false;
     let isEmailValid;
     let isPasswordValid;
     let isDateValid;
@@ -126,5 +125,34 @@ function validate() {
 
     if (isEmailValid && isPasswordValid && isDateValid && !isUsernameEmpty && !isFullNameEmpty) {
         addUsernameAndPasswordToLocalStorage();
+        isValid = true;
+    }
+
+    return isValid;
+}
+
+
+function goToMenuSettingsFormIfRegistrationFormIsVallid(){
+    const isValidSignUpParameters = validate();
+    if (isValidSignUpParameters) {
+        document.getElementById('gameMenuDiv').style.display = 'block';
+        document.getElementById('signUpDiv').style.display = "none";
+        window.addEventListener('beforeunload', (event) => {
+            // Cancel the event as stated by the standard.
+            event.preventDefault();
+            // Chrome requires returnValue to be set.
+            event.returnValue = '';
+          });
+    } else{
+        let messageForInvalidFieldsAsString= messageForInvalidFields.reduce(function(pre, next) {
+            return pre + ' ' + next;
+          });
+          alert(messageForInvalidFieldsAsString);
+          window.addEventListener('beforeunload', (event) => {
+            // Cancel the event as stated by the standard.
+            event.preventDefault();
+            // Chrome requires returnValue to be set.
+            event.returnValue = '';
+          });
     }
 }

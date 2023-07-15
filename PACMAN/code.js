@@ -14,7 +14,7 @@ let specialCharacterHasNotBeenEaten = true;
 let ghostInterval;
 let spacialCharacterInterval;
 
-function Start(numberOfBalls,numberOfGhosts) {
+function Start(numberOfBalls,numberOfGhosts,gameDuration) {
 	// console.log("start()");
 	lastPressedKey = 3;
 	board = new Array();
@@ -24,7 +24,7 @@ function Start(numberOfBalls,numberOfGhosts) {
 	let foodRemain = numberOfBalls;
 	let pacmanRemain = 1;
 	let ghostRemain = numberOfGhosts;
-	let medicationsRemain = 5;
+	let medicationsRemain = 2;
 	let specialCharacterRemain = 1;
 
 	for (let i = 0; i < 10; i++) {
@@ -132,6 +132,8 @@ function Draw(direction) {
 	context.clearRect(0, 0, canvas.width, canvas.height); //clean board
 	lblScore.value = score;
 	lblTime.value = timeElapsed;
+	lblLife.value = life;
+	lblUsername.value = JSON.parse(localStorage.getItem("loginUsername"));
 	for (let i = 0; i < 10; i++) {
 		for (let j = 0; j < 10; j++) {
 			const center = new Object();
@@ -204,11 +206,11 @@ function Draw(direction) {
 				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
 				context.fillStyle = "purple"; //color
 				context.fill();
-				// } else if (board[i][j] === 7) {
-				// 	context.beginPath();
-				// 	context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-				// 	context.fillStyle = "blue"; //color
-				// 	context.fill();
+			// 	} else if (board[i][j] === 7) {
+			// 		context.beginPath();
+			// 		context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+			// 		context.fillStyle = "blue"; //color
+			// 		context.fill();
 			}
 		}
 	}
@@ -254,7 +256,7 @@ function UpdatePosition() {
 		specialCharacterHasNotBeenEaten = false;
 	// } if (board[shape.i][shape.j] === 7) {
 	// 	life++;
-	}
+	 }
 
 	board[shape.i][shape.j] = 2;
 
@@ -275,7 +277,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	}
-	if (life === 0) {
+	if (life === 0 || timeElapsed == gameDuration) {
 		window.clearInterval(interval);
 		window.alert("Game Over");
 	} else {

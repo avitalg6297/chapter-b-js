@@ -1,10 +1,11 @@
 #canvas {
 	background: rgb(107, 105, 105);
+	left: 50%;
 }
 
 body {
 	background-color: #000;
-}
+}   
 
 .gameDiv label{
 	color: #FFC229;
