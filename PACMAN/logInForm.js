@@ -26,6 +26,7 @@ function ifUserExistStartGame() { //make like story
         document.getElementById('gameMenuDiv').style.display = 'block';
         document.getElementById('signInDiv').style.display = "none";
         window.addEventListener('beforeunload', (event) => {
+            window.onbeforeunload = null;
             // Cancel the event as stated by the standard.
             event.preventDefault();
             // Chrome requires returnValue to be set.
@@ -34,6 +35,7 @@ function ifUserExistStartGame() { //make like story
     } else {
         alert("Username/password incorrect");
         window.addEventListener('beforeunload', (event) => {
+            window.onbeforeunload = null;
             // Cancel the event as stated by the standard.
             event.preventDefault();
             // Chrome requires returnValue to be set.
