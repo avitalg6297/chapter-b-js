@@ -21,7 +21,7 @@ function settingsValidate() {
 
 function numberOfBallsValidate() {
     const stringToValidate = document.getElementById("balls").value;
-    if (stringToValidate != '' && stringToValidate > 50) {
+    if (stringToValidate != '' && (stringToValidate > gameMenuUserSettings.maxBallAmount || stringToValidate < gameMenuUserSettings.minBallAmount)) {
         messageForInvalidFieldsOnSettingsForm.push("number of balls must be 50 or less.");
         return false;
     } else {
@@ -31,7 +31,7 @@ function numberOfBallsValidate() {
 
 function gameDurationValidate() {
     const stringToValidate = document.getElementById("gameDuration").value;
-    if (stringToValidate != '' && (stringToValidate < 60 || stringToValidate > 300)) {
+    if (stringToValidate != '' && (stringToValidate < gameMenuUserSettings.minGameDuration || stringToValidate > gameMenuUserSettings.maxGameDuration)) {
         messageForInvalidFieldsOnSettingsForm.push("game duration must be between 60 to 300 seconds.");
         return false;
     } else {
@@ -41,7 +41,7 @@ function gameDurationValidate() {
 
 function numberOfGhostsValidate() {
     const stringToValidate = document.getElementById("ghosts").value;
-    if (stringToValidate != '' && (stringToValidate < 1 || stringToValidate > 4)) {
+    if (stringToValidate != '' && (stringToValidate < gameMenuUserSettings.minGhostsAmount || stringToValidate > gameMenuUserSettings.maxGhostsAmount)) {
         messageForInvalidFieldsOnSettingsForm.push("number of ghosts must be between 1 and 4.");
         return false;
     } else {
@@ -59,15 +59,15 @@ function addUsersChoiseToLocalStorage(valueInLocalStorage, usersChoise, collecti
 function startGameWithSettings() {
     let numberOfBalls = document.getElementById("balls").value;
     if (numberOfBalls == '') {
-        numberOfBalls = 50;
+        numberOfBalls = gameMenuUserSettings.defaultNumberOfBalls
     }
     let gameDuration = document.getElementById("gameDuration").value;
     if (gameDuration == '') {
-        gameDuration = 60;
+        gameDuration = gameMenuUserSettings.defaultGameDuration;
     }
     let numberOfGhosts = document.getElementById("ghosts").value;
     if (numberOfGhosts == '') {
-        numberOfGhosts = 4;
+        numberOfGhosts = gameMenuUserSettings.defaultNumberOfGhosts;
     }
     document.getElementById('gameDiv').style.display = 'block';
     document.getElementById('settingsDiv').style.display = "none";

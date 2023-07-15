@@ -7,6 +7,6 @@ function showSettingsDiv() {
 function showGameDiv() {
     document.getElementById('gameDiv').style.display = "block";
     document.getElementById('gameMenuDiv').style.display = "none";
-    Start(50,4,60);
+    Start(gameMenuUserSettings.defaultNumberOfBalls,gameMenuUserSettings.defaultNumberOfGhosts,gameMenuUserSettings.defaultGameDuration);
     preventPageFromRefreshing();
 }

@@ -72,7 +72,7 @@ function validateDate() {
     }
 }
 
-const validateEmail = (email) => {//arrow func 
+function validateEmail (email) {
     return String(email)
         .toLowerCase()
         .match(
@@ -123,7 +123,7 @@ function validate() {
         isPasswordValid = passwordValidation();
     }
 
-    if (isEmailValid && isPasswordValid && isDateValid && !isUsernameEmpty && !isFullNameEmpty) {
+    if (isPasswordValid && isDateValid && !isUsernameEmpty && !isFullNameEmpty) {
         addUsernameAndPasswordToLocalStorage();
         isValid = true;
     }

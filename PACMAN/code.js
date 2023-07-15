@@ -2,72 +2,71 @@ const context = canvas.getContext("2d");
 let shape = new Object();
 let ghosts = new Array();
 let specialCharacter = new Object();
+const startTime = new Date();
+let life = 5;
+let specialCharacterHasNotBeenEaten = true;
 let board;
 let score;
-let life = 5;
 let pacColor;
-const startTime = new Date();;
 let timeElapsed;
 let interval;
 let lastPressedKey;
-let specialCharacterHasNotBeenEaten = true;
 let ghostInterval;
 let spacialCharacterInterval;
 
 function Start(numberOfBalls,numberOfGhosts,gameDuration) {
 	// console.log("start()");
-	lastPressedKey = 3;
+	lastPressedKey = gamePlaySettings.initialPacmanDiraction;
 	board = new Array();
-	score = 0;
+	score = gamePlaySettings.initialScore;
 	pacColor = "yellow";
-	let countOfUnussedCells = 100;
+	let countOfUnussedCells = gamePlaySettings.initialFreeCellsCount;
 	let foodRemain = numberOfBalls;
 	let pacmanRemain = 1;
 	let ghostRemain = numberOfGhosts;
 	let medicationsRemain = 2;
-	let specialCharacterRemain = 1;
 
 	for (let i = 0; i < 10; i++) {
 		board[i] = new Array();
-		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
+		
 		for (let j = 0; j < 10; j++) {
 			if (i === 5 && j === 5) {
-				board[i][i] = 6;
+				board[i][i] = gamePlaySettings.cellValueForSpecialMoovingFood;
 				specialCharacter.i = i;
 				specialCharacter.j = j;
-				specialCharacter.k = 0;
-				specialCharacterRemain--;
+				specialCharacter.k = gamePlaySettings.cellValueForEmptyCell;
 			}
+			//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 			if ((i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 6 && j === 1) || (i === 6 && j === 2)) {
-				board[i][j] = 4;
+				board[i][j] = gamePlaySettings.cellValueForObstacle;
 			}
 			else if ((i === 0 && j === 0) || (i === 0 && j === 9) || (i === 9 && j === 0) || (i === 9 && j === 9)) {
 				if (ghostRemain > 0) {
 					let ghost = new Object();
 					ghost.i = i;
 					ghost.j = j;
-					ghost.k = 0;
-					board[i][j] = 5;
+					ghost.k = gamePlaySettings.cellValueForEmptyCell;
+					board[i][j] = gamePlaySettings.cellValueForGhostCharacter;
 					ghosts.push(ghost);
 					ghostRemain--;
 				} else {
-					board[i][j] = 0;
+					board[i][j] = gamePlaySettings.cellValueForEmptyCell;
 				}
 
-			} else if (board[i][j] != 5) {
+			} else if (board[i][j] != gamePlaySettings.cellValueForGhostCharacter) {
 				const randomNum = Math.random();
 				if (randomNum <= 1.0 * foodRemain / countOfUnussedCells) {
 					foodRemain--;
-					board[i][j] = 1;
+					board[i][j] = gamePlaySettings.cellValueForFood;
 				} else if (randomNum < 1.0 * (pacmanRemain + foodRemain) / countOfUnussedCells) {
 					shape.i = i;
 					shape.j = j;
 					pacmanRemain--;
-					board[i][j] = 2;
+					board[i][j] = gamePlaySettings.cellValueForPacmanCharacter;
 
 				}
 				else {
-					board[i][j] = 0;
+					board[i][j] = gamePlaySettings.cellValueForEmptyCell;
 				}
 				countOfUnussedCells--;
 			}
@@ -81,7 +80,7 @@ function Start(numberOfBalls,numberOfGhosts,gameDuration) {
 
 	while (foodRemain > 0) {
 		const emptyCell = findRandomEmptyCell(board);
-		board[emptyCell[0]][emptyCell[1]] = 1;
+		board[emptyCell[0]][emptyCell[1]] = gamePlaySettings.cellValueForFood;
 		foodRemain--;
 	}
 	keysDown = {};
