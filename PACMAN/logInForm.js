@@ -25,21 +25,9 @@ function ifUserExistStartGame() { //make like story
     if (isValidLogParameters) {
         document.getElementById('gameMenuDiv').style.display = 'block';
         document.getElementById('signInDiv').style.display = "none";
-        window.addEventListener('beforeunload', (event) => {
-            window.onbeforeunload = null;
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Chrome requires returnValue to be set.
-            event.returnValue = '';
-          });
+        preventPageFromRefreshing();
     } else {
         alert("Username/password incorrect");
-        window.addEventListener('beforeunload', (event) => {
-            window.onbeforeunload = null;
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Chrome requires returnValue to be set.
-            event.returnValue = '';
-          });
+        preventPageFromRefreshing();
     }
 }

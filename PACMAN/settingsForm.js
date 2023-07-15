@@ -7,19 +7,13 @@ function settingsValidate() {
     let isnumberOfGhostsValid = numberOfGhostsValidate();
 
     if (isNumberOfBallsValid && isgameDurationValidateValid && isnumberOfGhostsValid) {
-        // setValuesToLocalStorageIfTheyWereMadeByUserOtherwiseSetDafault();
         startGameWithSettings();
     } else {
         let messageForInvalidFieldsAsString = messageForInvalidFieldsOnSettingsForm.reduce(function (pre, next) {
             return pre + '  ' + next;
         });
         alert(messageForInvalidFieldsAsString);
-        window.addEventListener('beforeunload', (event) => {
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Chrome requires returnValue to be set.
-            event.returnValue = '';
-        });
+        preventPageFromRefreshing();
 
     }
 }
@@ -78,11 +72,6 @@ function startGameWithSettings() {
     document.getElementById('gameDiv').style.display = 'block';
     document.getElementById('settingsDiv').style.display = "none";
     Start(numberOfBalls, numberOfGhosts, gameDuration);
-    window.addEventListener('beforeunload', (event) => {
-        // Cancel the event as stated by the standard.
-        event.preventDefault();
-        // Chrome requires returnValue to be set.
-        event.returnValue = '';
-    });
+    preventPageFromRefreshing();
 }
 

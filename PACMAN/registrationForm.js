@@ -137,22 +137,12 @@ function goToMenuSettingsFormIfRegistrationFormIsVallid(){
     if (isValidSignUpParameters) {
         document.getElementById('gameMenuDiv').style.display = 'block';
         document.getElementById('signUpDiv').style.display = "none";
-        window.addEventListener('beforeunload', (event) => {
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Chrome requires returnValue to be set.
-            event.returnValue = '';
-          });
+        preventPageFromRefreshing();
     } else{
         let messageForInvalidFieldsAsString= messageForInvalidFields.reduce(function(pre, next) {
             return pre + ' ' + next;
           });
           alert(messageForInvalidFieldsAsString);
-          window.addEventListener('beforeunload', (event) => {
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Chrome requires returnValue to be set.
-            event.returnValue = '';
-          });
+          preventPageFromRefreshing();
     }
 }
