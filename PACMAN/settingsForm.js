@@ -49,17 +49,11 @@ function numberOfGhostsValidate() {
     };
 }
 
-function addUsersChoiseToLocalStorage(valueInLocalStorage, usersChoise, collectionName) {
-    if (valueInLocalStorage != null) {
-        localStorage.removeItem(collectionName);
-    }
-    localStorage.setItem(collectionName, JSON.stringify(usersChoise));
-}
 
 function startGameWithSettings() {
     let numberOfBalls = document.getElementById("balls").value;
     if (numberOfBalls == '') {
-        numberOfBalls = gameMenuUserSettings.defaultNumberOfBalls
+        numberOfBalls = gameMenuUserSettings.defaultNumberOfBalls;
     }
     let gameDuration = document.getElementById("gameDuration").value;
     if (gameDuration == '') {
@@ -72,6 +66,5 @@ function startGameWithSettings() {
     document.getElementById('gameDiv').style.display = 'block';
     document.getElementById('settingsDiv').style.display = "none";
     Start(numberOfBalls, numberOfGhosts, gameDuration);
-    preventPageFromRefreshing();
 }
 

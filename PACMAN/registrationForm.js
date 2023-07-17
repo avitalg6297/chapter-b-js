@@ -123,7 +123,7 @@ function validate() {
         isPasswordValid = passwordValidation();
     }
 
-    if (isPasswordValid && isDateValid && !isUsernameEmpty && !isFullNameEmpty) {
+    if (isEmailValid && isPasswordValid && isDateValid && !isUsernameEmpty && !isFullNameEmpty) {
         addUsernameAndPasswordToLocalStorage();
         isValid = true;
     }
