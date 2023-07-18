@@ -1,54 +1,22 @@
 function UpdatePosition() {
-	let gameDuration = JSON.parse(localStorage.getItem("gameDuration"));
+	const gameDuration = JSON.parse(localStorage.getItem("gameDuration"));
 	board[shape.i][shape.j] = 0;
-	let x = GetKeyPressed();
-	lastKeyPressed = x;
-	if (x === characterMoovinfDirection.up) {
-		if (shape.j > 0 && board[shape.i][shape.j - 1] !== gamePlaySettings.cellValueForObstacle) {
-			shape.j--;
-		}
-	}
-	if (x === characterMoovinfDirection.down) {
-		if (shape.j < 9 && board[shape.i][shape.j + 1] !== gamePlaySettings.cellValueForObstacle) {
-			shape.j++;
-		}
-	}
-	if (x === characterMoovinfDirection.left) {
-		if (shape.i > 0 && board[shape.i - 1][shape.j] !== gamePlaySettings.cellValueForObstacle) {
-			shape.i--;
-		}
-	}
-	if (x === characterMoovinfDirection.right) {
-		if (shape.i < 9 && board[shape.i + 1][shape.j] !== gamePlaySettings.cellValueForObstacle) {
-			shape.i++;
-		}
-	}
-	if (board[shape.i][shape.j] === gamePlaySettings.cellValueForFood) {
-		score++;
 
-	}
-	if (board[shape.i][shape.j] === gamePlaySettings.cellValueForGhostCharacter) {
-		score = score - 10;
-		life--;
-	}
-	if (board[shape.i][shape.j] === gamePlaySettings.cellValueForSpecialMoovingFood) {
-		score = score + 50;
-		specialCharacter.i = undefined;
-		specialCharacter.j = undefined;
-		specialCharacterHasNotBeenEaten = false;
-	}
+	movePacmanTodesiredPlaceByUser();
+	
+	givePointToPacmanAccordingToItsMove();
 
 	board[shape.i][shape.j] = gamePlaySettings.cellValueForPacmanCharacter;
 
 	if (specialCharacterHasNotBeenEaten) {
-		putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(specialCharacter);
+		putSpecialScoreCharacterInItsNewPosition(specialCharacter);
 	}
 
 	for (let i = 0; i < ghosts.length; i++) {
-		putGhostInItsNewPositionANdUpdateGhostState(i, specialCharacter, specialCharacterHasNotBeenEaten);
+		putGhostInItsNewPosition(i, specialCharacter, specialCharacterHasNotBeenEaten);
 	}
 
-	let currentTime = new Date();
+	const currentTime = new Date();
 	timeElapsed = (currentTime - startTime) / 1000;
 	if (score >= 20 && timeElapsed <= 10) {
 		pacColor = colors.winPacman;
@@ -65,7 +33,49 @@ function UpdatePosition() {
 	}
 }
 
-function putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(specialCharacter) {
+function givePointToPacmanAccordingToItsMove(){
+	if (board[shape.i][shape.j] === gamePlaySettings.cellValueForFood) {
+		score++;
+
+	}
+	if (board[shape.i][shape.j] === gamePlaySettings.cellValueForGhostCharacter) {
+		score = score - 10;
+		life--;
+	}
+	if (board[shape.i][shape.j] === gamePlaySettings.cellValueForSpecialMoovingFood) {
+		score = score + 50;
+		specialCharacter.i = undefined;
+		specialCharacter.j = undefined;
+		specialCharacterHasNotBeenEaten = false;
+	}
+}
+
+function movePacmanTodesiredPlaceByUser() {
+	const lastKeyPressed = GetKeyPressed();
+	if (lastKeyPressed === characterMoovinfDirection.up) {
+		if (shape.j > 0 && board[shape.i][shape.j - 1] !== gamePlaySettings.cellValueForObstacle) {
+			shape.j--;
+		}
+	}
+	if (lastKeyPressed === characterMoovinfDirection.down) {
+		if (shape.j < 9 && board[shape.i][shape.j + 1] !== gamePlaySettings.cellValueForObstacle) {
+			shape.j++;
+		}
+	}
+	if (lastKeyPressed === characterMoovinfDirection.left) {
+		if (shape.i > 0 && board[shape.i - 1][shape.j] !== gamePlaySettings.cellValueForObstacle) {
+			shape.i--;
+		}
+	}
+	if (lastKeyPressed === characterMoovinfDirection.right) {
+		if (shape.i < 9 && board[shape.i + 1][shape.j] !== gamePlaySettings.cellValueForObstacle) {
+			shape.i++;
+		}
+	}
+
+}
+
+function putSpecialScoreCharacterInItsNewPosition(specialCharacter) {
 	let newSpecialCharacterPosition = specialScoreCharacterAlgorithm(specialCharacter);
 
 	board[specialCharacter.i][specialCharacter.j] = specialCharacter.k;
@@ -79,13 +89,13 @@ function putSpecialScoreCharacterInItsNewPositionANdUpdateCharacterstState(speci
 function specialScoreCharacterAlgorithm(specialCharacter) {
 	let newSpecialCharacterPosition = new Object();
 	let directionsMapForSpecialCharacter = new Map();
-	setDirectionsMapValues(specialCharacter, directionsMapForSpecialCharacter)
+	setDirectionsMapValues(specialCharacter, directionsMapForSpecialCharacter);
 	newSpecialCharacterPosition = findNewPositionForGhost(directionsMapForSpecialCharacter, newSpecialCharacterPosition, specialCharacter, true);
 	return newSpecialCharacterPosition;
 }
 
 function findNewPositionForGhost(directionsMap, newGhostPosition, ghost, isSpecialCharacter) {
-	let countRandom = 0;
+	let countNumberOfAttemptsToFindNewPositionForGhost = 0;
 	let newPositionIsSet = false;
 	while (!newPositionIsSet) {
 		let randomDirection = randomNumber(1, 4);
@@ -104,8 +114,8 @@ function findNewPositionForGhost(directionsMap, newGhostPosition, ghost, isSpeci
 				}
 			}
 		} else {
-			countRandom++;
-			if (countRandom == 2) {
+			countNumberOfAttemptsToFindNewPositionForGhost++;
+			if (countNumberOfAttemptsToFindNewPositionForGhost == 2) {
 				newGhostPosition.i = ghost.i;
 				newGhostPosition.j = ghost.j;
 				newPositionIsSet = true;
@@ -128,7 +138,7 @@ function ghostAlgorithm(ghost, pacman) {
 		placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGhostPosition, board, directionsMap)
 	}
 	else {
-		newGhostPosition = findNewPositionForGhost(directionsMap, newGhostPosition, ghost,false);
+		newGhostPosition = findNewPositionForGhost(directionsMap, newGhostPosition, ghost, false);
 	}
 
 	return newGhostPosition;
@@ -162,7 +172,8 @@ function setDirectionsMapValues(ghost, directionsMap) {
 
 function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGhostPosition, board, directionsMap) {
 	if (ghost.i < pacman.i) {
-		if (board[ghost.i + 1][ghost.j] != gamePlaySettings.cellValueForObstacle && board[ghost.i + 1][ghost.j] != gamePlaySettings.cellValueForGhostCharacter && board[ghost.i + 1][ghost.j] != gamePlaySettings.cellValueForSpecialMoovingFood) {
+		isNewPositionValidForPlacingGhostAt(ghost.i + 1, ghost.j)
+		if (isNewPositionValidForPlacingGhostAt(ghost.i + 1, ghost.j)) {
 			newGhostPosition.i = ghost.i + 1;
 			newGhostPosition.j = ghost.j;
 		}
@@ -172,19 +183,30 @@ function placeGhostInNewPositionIfPacmanIsInSightVertically(ghost, pacman, newGh
 		}
 	}
 	else if (ghost.i > pacman.i) {
-		if (board[ghost.i - 1][ghost.j] != gamePlaySettings.cellValueForObstacle && board[ghost.i - 1][ghost.j] != gamePlaySettings.cellValueForGhostCharacter && board[ghost.i - 1][ghost.j] != gamePlaySettings.cellValueForSpecialMoovingFood) {
+		if (isNewPositionValidForPlacingGhostAt(ghost.i - 1, ghost.j)) {
 			newGhostPosition.i = ghost.i - 1;
 			newGhostPosition.j = ghost.j;
 		} else {
 			directionsMap.set(arrowKeyPressedDirections.left, 0);
-			newGhostPosition = findNewPositionForGhost(directionsMap, newGhostPosition, ghost,false);
+			newGhostPosition = findNewPositionForGhost(directionsMap, newGhostPosition, ghost, false);
 		}
 	}
 }
 
+function isNewPositionValidForPlacingGhostAt(i, j) {
+	if (board[i][j] != gamePlaySettings.cellValueForObstacle &&
+		board[i][j] != gamePlaySettings.cellValueForGhostCharacter &&
+		board[i][j] != gamePlaySettings.cellValueForSpecialMoovingFood) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
 function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, board, newGhostPosition, directionsMap) {
 	if (ghost.j < pacman.j) {
-		if (board[ghost.i][ghost.j + 1] != gamePlaySettings.cellValueForObstacle && board[ghost.i][ghost.j + 1] != gamePlaySettings.cellValueForGhostCharacter && board[ghost.i][ghost.j + 1] != gamePlaySettings.cellValueForSpecialMoovingFood) {
+		if (isNewPositionValidForPlacingGhostAt(ghost.i, ghost.j + 1)) {
 			newGhostPosition.i = ghost.i;
 			newGhostPosition.j = ghost.j + 1;
 		} else {
@@ -193,7 +215,7 @@ function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, bo
 		}
 	}
 	else if (ghost.j > pacman.j) {
-		if (board[ghost.i][ghost.j - 1] != gamePlaySettings.cellValueForObstacle && board[ghost.i][ghost.j - 1] != gamePlaySettings.cellValueForGhostCharacter && board[ghost.i][ghost.j - 1] != gamePlaySettings.cellValueForSpecialMoovingFood) {
+		if (isNewPositionValidForPlacingGhostAt(ghost.i, ghost.j - 1)) {
 			newGhostPosition.i = ghost.i;
 			newGhostPosition.j = ghost.j - 1;
 		} else {
@@ -203,7 +225,7 @@ function placeGhostInNewPositionIfPacmanIsInSighthHorizontally(ghost, pacman, bo
 	}
 }
 
-function putGhostInItsNewPositionANdUpdateGhostState(ghostNumber) {
+function putGhostInItsNewPosition(ghostNumber) {
 	let ghost = ghosts[ghostNumber];
 	let newGhostPosition = ghostAlgorithm(ghost, shape);
 	board[ghost.i][ghost.j] = ghost.k;
@@ -213,7 +235,6 @@ function putGhostInItsNewPositionANdUpdateGhostState(ghostNumber) {
 		pacColor = colors.hitByAGhostPacman;
 		board[newGhostPosition.i][newGhostPosition.j] = gamePlaySettings.cellValueForGhostCharacter;
 		life--;
-
 		updatePacmanState();
 		score--;
 	}

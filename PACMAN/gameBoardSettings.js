@@ -59,7 +59,7 @@ function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 					isPacmanSet = true;
 					board[i][j] = gamePlaySettings.cellValueForPacmanCharacter;
 				}
-			    else if(randomNum <= 1.0 * foodRemain / countOfUnussedCells) {
+			    else if(randomNum <= foodRemain / countOfUnussedCells) {
 					foodRemain--;
 					board[i][j] = gamePlaySettings.cellValueForFood;
 				}
