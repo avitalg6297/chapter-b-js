@@ -1,4 +1,5 @@
 function UpdatePosition() {
+	let gameDuration = JSON.parse(localStorage.getItem("gameDuration"));
 	board[shape.i][shape.j] = 0;
 	let x = GetKeyPressed();
 	lastKeyPressed = x;

@@ -44,7 +44,7 @@ const arrowKeyPressedDirections = {
 }
 
 const updatePositionInterval = {
-  time: 250
+  time: 150
 }
 
 const keyState = {

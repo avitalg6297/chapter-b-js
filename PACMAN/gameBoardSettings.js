@@ -21,7 +21,7 @@ function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 	pacColor = colors.pacman;
 	let countOfUnussedCells = gamePlaySettings.initialFreeCellsCount;
 	let foodRemain = numberOfBalls;
-	let pacmanRemain = 1;
+	let isPacmanSet = false;
 	let ghostRemain = numberOfGhosts;
 
 	for (let i = 0; i < 10; i++) {
@@ -53,15 +53,15 @@ function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 
 			} else if (board[i][j] != gamePlaySettings.cellValueForGhostCharacter) {
 				const randomNum = Math.random();
-				if (randomNum <= 1.0 * foodRemain / countOfUnussedCells) {
-					foodRemain--;
-					board[i][j] = gamePlaySettings.cellValueForFood;
-				} else if (randomNum < 1.0 * (pacmanRemain + foodRemain) / countOfUnussedCells) {
+				if(!isPacmanSet){
 					shape.i = i;
 					shape.j = j;
-					pacmanRemain--;
+					isPacmanSet = true;
 					board[i][j] = gamePlaySettings.cellValueForPacmanCharacter;
-
+				}
+			    else if(randomNum <= 1.0 * foodRemain / countOfUnussedCells) {
+					foodRemain--;
+					board[i][j] = gamePlaySettings.cellValueForFood;
 				}
 				else {
 					board[i][j] = gamePlaySettings.cellValueForEmptyCell;
