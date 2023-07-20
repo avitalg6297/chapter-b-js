@@ -1,5 +1,4 @@
 let messageForInvalidFields = new Array();
-messageForInvalidFields.push("There were some probloms with your registration form: ");
 
 function addUsernameAndPasswordToLocalStorage() {
     const user = document.getElementById("username").value;
@@ -72,7 +71,7 @@ function validateDate() {
     }
 }
 
-function validateEmail (email) {
+function validateEmail(email) {
     return String(email)
         .toLowerCase()
         .match(
@@ -84,7 +83,7 @@ function validateEmail (email) {
 function passwordValidation() {
     const stringToValidate = document.getElementById("password").value;
     const pattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-    if ( stringToValidate.length > 2 && pattern.test(stringToValidate)) {
+    if (stringToValidate.length > 2 && pattern.test(stringToValidate)) {
         return true;
     } else {
         messageForInvalidFields.push("password is invalid - please use upper and lower case chars, digits and special symbols");
@@ -101,10 +100,12 @@ function validateIfFormFieldsAreEmpty(fieldToCheck, fieldName) {
 }
 
 function validate() {
-    let isValid  = false;
+    let isValid = false;
     let isEmailValid;
     let isPasswordValid;
     let isDateValid;
+    messageForInvalidFields.length =0;
+    messageForInvalidFields.push("There were some probloms with your registration form: ");
     const isUsernameEmpty = validateIfFormFieldsAreEmpty(document.register.username, "username");
     const isPasswordEmpty = validateIfFormFieldsAreEmpty(document.register.password, "password");
     const isFullNameEmpty = validateIfFormFieldsAreEmpty(document.register.fullName, "full name");
@@ -132,17 +133,17 @@ function validate() {
 }
 
 
-function goToMenuSettingsFormIfRegistrationFormIsVallid(){
+function goToMenuSettingsFormIfRegistrationFormIsVallid() {
     const isValidSignUpParameters = validate();
     if (isValidSignUpParameters) {
         document.getElementById('gameMenuDiv').style.display = 'block';
         document.getElementById('signUpDiv').style.display = "none";
         preventPageFromRefreshing();
-    } else{
-        let messageForInvalidFieldsAsString= messageForInvalidFields.reduce(function(pre, next) {
+    } else {
+        let messageForInvalidFieldsAsString = messageForInvalidFields.reduce(function (pre, next) {
             return pre + ' ' + next;
-          });
-          alert(messageForInvalidFieldsAsString);
-          preventPageFromRefreshing();
+        });
+        alert(messageForInvalidFieldsAsString);
+        preventPageFromRefreshing();
     }
 }

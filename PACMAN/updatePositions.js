@@ -1,9 +1,10 @@
 function UpdatePosition() {
-	const gameDuration = JSON.parse(localStorage.getItem("gameDuration"));
+	let gameDuration = JSON.parse(localStorage.getItem("gameDuration"));
+	console.log(gameDuration)
 	board[shape.i][shape.j] = 0;
 
 	movePacmanTodesiredPlaceByUser();
-	
+
 	givePointToPacmanAccordingToItsMove();
 
 	board[shape.i][shape.j] = gamePlaySettings.cellValueForPacmanCharacter;
@@ -18,6 +19,7 @@ function UpdatePosition() {
 
 	const currentTime = new Date();
 	timeElapsed = (currentTime - startTime) / 1000;
+	console.log("timeElapsed  "+ timeElapsed);
 	if (score >= 20 && timeElapsed <= 10) {
 		pacColor = colors.winPacman;
 	}
@@ -25,7 +27,7 @@ function UpdatePosition() {
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	}
-	if (life === 0 || timeElapsed == gameDuration) {
+	if (life <= 0 || timeElapsed >= gameDuration) {
 		window.clearInterval(interval);
 		window.alert("Game Over");
 	} else {
@@ -33,7 +35,7 @@ function UpdatePosition() {
 	}
 }
 
-function givePointToPacmanAccordingToItsMove(){
+function givePointToPacmanAccordingToItsMove() {
 	if (board[shape.i][shape.j] === gamePlaySettings.cellValueForFood) {
 		score++;
 

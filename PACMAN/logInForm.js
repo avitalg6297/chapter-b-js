@@ -20,6 +20,7 @@ function addLogedInUsernameToLocalStorage(valueInLocalStorage, usersChoise, coll
     localStorage.setItem(collectionName, JSON.stringify(usersChoise));
 }
 
+
 function ifUserExistStartGame() {
     const isValidLogParameters = validateLogInParameters()
     if (isValidLogParameters) {

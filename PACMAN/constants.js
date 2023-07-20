@@ -44,7 +44,7 @@ const arrowKeyPressedDirections = {
 }
 
 const updatePositionInterval = {
-  time: 150
+  time: 250
 }
 
 const keyState = {
@@ -53,11 +53,11 @@ const keyState = {
 }
 
 const colors = {
-  pacman: 'yellow',
-  hitByAGhostPacman : 'red',
-  winPacman : "green",
-  eyeOrfood: 'black',
-  obstacle: 'white',
-  specialMoovingFood: 'purple',
-  ghost: 'pink'
+  pacman: 'rgb(255,255,0)',
+  hitByAGhostPacman : 'rgb(255,0,0)',
+  winPacman : 'rgb(0,128,0)',
+  eyeOrfood: 'rgb(0,0,0)',
+  obstacle: 'rgb(255,255,255)',
+  specialMoovingFood: 'rgb(128,0,128)',
+  ghost: 'rgb(255,20,147)'
 }

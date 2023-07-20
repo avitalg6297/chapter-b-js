@@ -1,10 +1,10 @@
-let messageForInvalidFieldsOnSettingsForm = new Array();
-messageForInvalidFields.push("There were some probloms with your settings form: ");
-
 function settingsValidate() {
-    let isNumberOfBallsValid = numberOfBallsValidate();
-    let isgameDurationValidateValid = gameDurationValidate();
-    let isnumberOfGhostsValid = numberOfGhostsValidate();
+    let messageForInvalidFieldsOnSettingsForm = new Array();
+    messageForInvalidFields.push("There were some probloms with your settings form: ");
+
+    let isNumberOfBallsValid = numberOfBallsValidate(messageForInvalidFieldsOnSettingsForm);
+    let isgameDurationValidateValid = gameDurationValidate(messageForInvalidFieldsOnSettingsForm);
+    let isnumberOfGhostsValid = numberOfGhostsValidate(messageForInvalidFieldsOnSettingsForm);
 
     if (isNumberOfBallsValid && isgameDurationValidateValid && isnumberOfGhostsValid) {
         startGameWithSettings();
@@ -14,12 +14,11 @@ function settingsValidate() {
         });
         alert(messageForInvalidFieldsAsString);
         preventPageFromRefreshing();
-
     }
 }
 
 
-function numberOfBallsValidate() {
+function numberOfBallsValidate(messageForInvalidFieldsOnSettingsForm) {
     const stringToValidate = document.getElementById("balls").value;
     if (stringToValidate != '' && (stringToValidate > gameMenuUserSettings.maxBallAmount || stringToValidate < gameMenuUserSettings.minBallAmount)) {
         messageForInvalidFieldsOnSettingsForm.push("number of balls must be 50 or less.");
@@ -29,7 +28,7 @@ function numberOfBallsValidate() {
     }
 }
 
-function gameDurationValidate() {
+function gameDurationValidate(messageForInvalidFieldsOnSettingsForm) {
     const stringToValidate = document.getElementById("gameDuration").value;
     if (stringToValidate != '' && (stringToValidate < gameMenuUserSettings.minGameDuration || stringToValidate > gameMenuUserSettings.maxGameDuration)) {
         messageForInvalidFieldsOnSettingsForm.push("game duration must be between 60 to 300 seconds.");
@@ -39,7 +38,7 @@ function gameDurationValidate() {
     }
 }
 
-function numberOfGhostsValidate() {
+function numberOfGhostsValidate(messageForInvalidFieldsOnSettingsForm) {
     const stringToValidate = document.getElementById("ghosts").value;
     if (stringToValidate != '' && (stringToValidate < gameMenuUserSettings.minGhostsAmount || stringToValidate > gameMenuUserSettings.maxGhostsAmount)) {
         messageForInvalidFieldsOnSettingsForm.push("number of ghosts must be between 1 and 4.");
@@ -57,8 +56,8 @@ function startGameWithSettings() {
     let gameDuration = document.getElementById("gameDuration").value;
     if (gameDuration == '') {
         gameDuration = gameMenuUserSettings.defaultGameDuration;
-        putValidGameDurationToLocalStorage();
     }
+    putValidGameDurationToLocalStorage(gameDuration);
     let numberOfGhosts = document.getElementById("ghosts").value;
     if (numberOfGhosts == '') {
         numberOfGhosts = gameMenuUserSettings.defaultNumberOfGhosts;
@@ -69,10 +68,10 @@ function startGameWithSettings() {
     Start(numberOfBalls, numberOfGhosts, gameDuration);
 }
 
-function putValidGameDurationToLocalStorage(){
+function putValidGameDurationToLocalStorage(gameDuration) {
     const gameDurationFromLocalStorage = JSON.parse(localStorage.getItem("gameDuration"));
     if (gameDurationFromLocalStorage != null) {
-        localStorage.removeItem(collectionName);
+        localStorage.removeItem("gameDuration");
     }
     localStorage.setItem("gameDuration", JSON.stringify(gameDuration));
 }
