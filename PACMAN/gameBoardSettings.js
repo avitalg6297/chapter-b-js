@@ -81,7 +81,6 @@ function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 		pacColor = colors.pacman;
 		keysDown[e.code] = true;
 		lastPressedKey = GetKeyPressed();
-		lastKeyPressed = GetKeyPressed();
 	}, false);
 	addEventListener(keyState.up, function (e) {
 		keysDown[e.code] = false;

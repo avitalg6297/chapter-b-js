@@ -23,12 +23,13 @@ function Draw(direction) {
 				if (direction === 4) {
 					drawPacmanDirection(center, 30, 0.15 * Math.PI, 1.85 * Math.PI, 0, 15, 5, 0, 2 * Math.PI);
 				}
+
 			} else if (board[i][j] === 1) {
-				drawCharacters(center,0, 0, 15, 0, 2 * Math.PI, colors.eyeOrfood);
+				drawCharacters(center, 0, 0, 15, 0, 2 * Math.PI, colors.eyeOrfood);
 			} else if (board[i][j] === 4) {
 				drawObstacle(center, 30, 30, 60, 60, colors.obstacle);
 			} else if (board[i][j] === 5) {
-				drawCharacters(center,0, 0, 15, 0, 2 * Math.PI, colors.ghost);
+				drawCharacters(center, 0, 0, 15, 0, 2 * Math.PI, colors.ghost);
 			} else if (board[i][j] === 6) {
 				drawCharacters(center, 0, 0, 15, 0, 2 * Math.PI, colors.specialMoovingFood);
 			}
@@ -36,16 +37,16 @@ function Draw(direction) {
 	}
 }
 
-function drawObstacle(center,obstacleXCoordinate, obstacleYCoordinate, obstacleWidth, obstacleHight, color) {
+function drawObstacle(center, obstacleXCoordinate, obstacleYCoordinate, obstacleWidth, obstacleHight, color) {
 	context.beginPath();
-	context.rect(center.x -obstacleXCoordinate,center.y - obstacleYCoordinate, obstacleWidth, obstacleHight);
+	context.rect(center.x - obstacleXCoordinate, center.y - obstacleYCoordinate, obstacleWidth, obstacleHight);
 	context.fillStyle = color; //color     
 	context.fill();
 }
 
-function drawCharacters(center,characterXCoordinate, characterYCoordinate, characterRadius, characterStartingAngle, characterEndingEngle, color) {
+function drawCharacters(center, characterXCoordinate, characterYCoordinate, characterRadius, characterStartingAngle, characterEndingEngle, color) {
 	context.beginPath();
-	context.arc(center.x -characterXCoordinate, center.y - characterYCoordinate, characterRadius, characterStartingAngle, characterEndingEngle); // circle
+	context.arc(center.x - characterXCoordinate, center.y - characterYCoordinate, characterRadius, characterStartingAngle, characterEndingEngle); // circle
 	context.fillStyle = color; //color
 	context.fill();
 }

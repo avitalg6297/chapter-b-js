@@ -19,7 +19,7 @@ function UpdatePosition() {
 
 	const currentTime = new Date();
 	timeElapsed = (currentTime - startTime) / 1000;
-	console.log("timeElapsed  "+ timeElapsed);
+	console.log("timeElapsed  " + timeElapsed);
 	if (score >= 20 && timeElapsed <= 10) {
 		pacColor = colors.winPacman;
 	}
