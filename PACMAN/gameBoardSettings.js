@@ -14,7 +14,7 @@ let lastPressedKey;
 let drawBoardInterval;
 let lastPressedKeySaveCode;
 
-function Start(numberOfBalls, numberOfGhosts, gameDuration) {
+function Start(numberOfBalls, numberOfGhosts) {
 	lastPressedKey = gamePlaySettings.initialPacmanDiraction;
 	board = new Array();
 	score = gamePlaySettings.initialScore;

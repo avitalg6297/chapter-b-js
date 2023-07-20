@@ -104,7 +104,7 @@ function validate() {
     let isEmailValid;
     let isPasswordValid;
     let isDateValid;
-    messageForInvalidFields.length =0;
+    messageForInvalidFields.length = 0;
     messageForInvalidFields.push("There were some probloms with your registration form: ");
     const isUsernameEmpty = validateIfFormFieldsAreEmpty(document.register.username, "username");
     const isPasswordEmpty = validateIfFormFieldsAreEmpty(document.register.password, "password");

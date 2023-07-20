@@ -65,7 +65,7 @@ function startGameWithSettings() {
 
     document.getElementById('gameDiv').style.display = 'block';
     document.getElementById('settingsDiv').style.display = "none";
-    Start(numberOfBalls, numberOfGhosts, gameDuration);
+    Start(numberOfBalls, numberOfGhosts);
 }
 
 function putValidGameDurationToLocalStorage(gameDuration) {
