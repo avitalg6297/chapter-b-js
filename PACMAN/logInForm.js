@@ -6,7 +6,7 @@ function validateLogInParameters() {
     if (map.has(user)) {
         if (map.get(user) == password) {
             const logedInUserFromLocalStorage = JSON.parse(localStorage.getItem("loginUsername"));
-            addLogedInUsernameToLocalStorage(logedInUserFromLocalStorage, user,"loginUsername")
+            addLogedInUsernameToLocalStorage(logedInUserFromLocalStorage, user,"loginUsername");
             isValid = true;
         }
     }
@@ -25,7 +25,7 @@ function ifUserExistStartGame() {
     const isValidLogParameters = validateLogInParameters()
     if (isValidLogParameters) {
         document.getElementById('gameMenuDiv').style.display = 'block';
-        document.getElementById('signInDiv').style.display = "none";
+        document.getElementById('signInDiv').style.display = 'none';
         preventPageFromRefreshing();
     } else {
         alert("Username/password incorrect");

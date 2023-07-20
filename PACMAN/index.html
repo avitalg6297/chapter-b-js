@@ -27,7 +27,7 @@
   </div>
 
   <div class=registrationForm style="display:none;" id="signUpDiv">
-    <form name="register" onsubmit="return goToMenuSettingsFormIfRegistrationFormIsVallid()">
+    <form name="register">
       <br>
       <input type="text" class="formInput" id="username" placeholder="Username" name="username">
       <br>
@@ -40,13 +40,14 @@
       <input type="date" class="formInput" id="dateOfBirth" name="dateOfBirth"><br>
       <br>
       <div class="signUpCenter">
-        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign up" />
+        <input class="whiteToYellowButton" role="button" type="button" name="answer" value="Sign up" 
+        onclick="goToMenuSettingsFormIfRegistrationFormIsVallid()"/>
       </div>
     </form>
   </div>
 
   <div class=settingsForm style="display:none;" id="settingsDiv">
-    <form name="settings" onsubmit="return settingsValidate()">
+    <form name="settings">
       <br>
       <input type="number" class="formInput" id="balls" placeholder="Number of balls" name="balls">
       <br>
@@ -55,20 +56,22 @@
       <input type="number" class="formInput" id="ghosts" placeholder="Number of ghosts" name="ghosts">
       <br>
       <div class="center">
-        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Start game" />
+        <input class="whiteToYellowButton" role="button" type="button" name="answer" value="Start game"
+        onclick="settingsValidate()" />
       </div>
     </form>
   </div>
 
   <div class=logInForm style="display:none;" id="signInDiv">
-    <form name="logIn" onsubmit="return ifUserExistStartGame()">
+    <form name="logIn">
       <br>
       <input type="text" class="formInput" id="loginUsername" placeholder="Username" name="loginUsername">
       <br>
       <input type="password" class="formInput" id="loginPassword" placeholder="Password" name="loginPassword">
       <br>
       <div class="center">
-        <input class="whiteToYellowButton" role="button" type="submit" name="Submit" value="Sign in" />
+        <input class="whiteToYellowButton" role="button" type="button" name="answer" value="Sign in"
+        onclick="ifUserExistStartGame()" />
       </div>
     </form>
   </div>
