@@ -52,38 +52,22 @@ function movePacmanTodesiredPlaceByUser() {
 	const lastKeyPressed = GetKeyPressed();
 	if (lastKeyPressed === characterMoovinfDirection.up) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] !== gamePlaySettings.cellValueForObstacle) {
-			shape.j--;
-			const center = new Object();
-			center.x = shape.i * 60 + 30;
-			center.y = shape.j * 60 + 30;
-			drawPacmanDirection(center, 30, 1.65 * Math.PI, 3.30 * Math.PI, -10, -5, 5, 0, 2 * Math.PI);
+			 shape.j--;
 		}
 	}
 	if (lastKeyPressed === characterMoovinfDirection.down) {
 		if (shape.j < 9 && board[shape.i][shape.j + 1] !== gamePlaySettings.cellValueForObstacle) {
-			shape.j++;
-			const center = new Object();
-			center.x = shape.i * 60 + 30;
-			center.y = shape.j * 60 + 30;
-			drawPacmanDirection(center, 30, 0.65 * Math.PI, 2.30 * Math.PI, -10, 10, 5, 0, 2 * Math.PI);
+			 shape.j++;
 		}
 	}
 	if (lastKeyPressed === characterMoovinfDirection.left) {
 		if (shape.i > 0 && board[shape.i - 1][shape.j] !== gamePlaySettings.cellValueForObstacle) {
 			shape.i--;
-			const center = new Object();
-			center.x = shape.i * 60 + 30;
-			center.y = shape.j * 60 + 30;
-			drawPacmanDirection(center, 30, 1.15 * Math.PI, 2.80 * Math.PI, 0, 15, 5, 0, 2 * Math.PI);
 		}
 	}
 	if (lastKeyPressed === characterMoovinfDirection.right) {
 		if (shape.i < 9 && board[shape.i + 1][shape.j] !== gamePlaySettings.cellValueForObstacle) {
 			shape.i++;
-			const center = new Object();
-			center.x = shape.i * 60 + 30;
-			center.y = shape.j * 60 + 30;
-			drawPacmanDirection(center, 30, 0.15 * Math.PI, 1.85 * Math.PI, 0, 15, 5, 0, 2 * Math.PI);
 		}
 	}
 
