@@ -1,6 +1,5 @@
 function UpdatePosition() {
 	let gameDuration = JSON.parse(localStorage.getItem("gameDuration"));
-	console.log(gameDuration)
 	board[shape.i][shape.j] = 0;
 
 	movePacmanTodesiredPlaceByUser();
@@ -19,7 +18,6 @@ function UpdatePosition() {
 
 	const currentTime = new Date();
 	timeElapsed = (currentTime - startTime) / 1000;
-	console.log("timeElapsed  " + timeElapsed);
 	if (score >= 20 && timeElapsed <= 10) {
 		pacColor = colors.winPacman;
 	}

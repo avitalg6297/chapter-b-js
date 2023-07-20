@@ -12,7 +12,6 @@ let timeElapsed;
 let interval;
 let lastPressedKey;
 let ghostInterval;
-let spacialCharacterInterval;
 
 function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 	lastPressedKey = gamePlaySettings.initialPacmanDiraction;
