@@ -1,4 +1,4 @@
-function Draw(direction) {
+function Draw() {
 	context.clearRect(0, 0, canvas.width, canvas.height); //clean board
 	lblScore.value = score;
 	lblTime.value = timeElapsed;
@@ -11,20 +11,20 @@ function Draw(direction) {
 			center.y = j * 60 + 30;
 			if (board[i][j] === 2) {
 
-				if (direction === 1) {
+				if (lastPressedKey === 1) {
 					drawPacmanDirection(center, 30, 1.65 * Math.PI, 3.30 * Math.PI, -10, -5, 5, 0, 2 * Math.PI);
 				}
-				if (direction === 2) {
+				if (lastPressedKey === 2) {
 					drawPacmanDirection(center, 30, 0.65 * Math.PI, 2.30 * Math.PI, -10, 10, 5, 0, 2 * Math.PI);
 				}
-				if (direction === 3) {
+				if (lastPressedKey === 3) {
 					drawPacmanDirection(center, 30, 1.15 * Math.PI, 2.80 * Math.PI, 0, 15, 5, 0, 2 * Math.PI);
 				}
-				if (direction === 4) {
+				if (lastPressedKey === 4) {
 					drawPacmanDirection(center, 30, 0.15 * Math.PI, 1.85 * Math.PI, 0, 15, 5, 0, 2 * Math.PI);
 				}
 
-			} else if (board[i][j] === 1) {
+			 } if (board[i][j] === 1) {
 				drawCharacters(center, 0, 0, 15, 0, 2 * Math.PI, colors.eyeOrfood);
 			} else if (board[i][j] === 4) {
 				drawObstacle(center, 30, 30, 60, 60, colors.obstacle);

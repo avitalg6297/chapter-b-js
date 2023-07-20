@@ -47,6 +47,10 @@ const updatePositionInterval = {
   time: 250
 }
 
+const drawInterval ={
+  time: 200
+}
+
 const keyState = {
   up: "keyup",
   down: "keydown"

@@ -11,7 +11,8 @@ let pacColor;
 let timeElapsed;
 let interval;
 let lastPressedKey;
-let ghostInterval;
+let drawBoardInterval;
+let lastPressedKeySaveCode;
 
 function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 	lastPressedKey = gamePlaySettings.initialPacmanDiraction;
@@ -37,7 +38,7 @@ function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 			if (isBoardPositionSavedForObstacle(i, j)) {
 				board[i][j] = gamePlaySettings.cellValueForObstacle;
 			}
-			else if (isBoardPositionSavedForGhost(i,j)) {
+			else if (isBoardPositionSavedForGhost(i, j)) {
 				if (ghostRemain > 0) {
 					let ghost = new Object();
 					ghost.i = i;
@@ -52,13 +53,14 @@ function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 
 			} else if (board[i][j] != gamePlaySettings.cellValueForGhostCharacter) {
 				const randomNum = Math.random();
-				if(!isPacmanSet){
+				if (!isPacmanSet) {
 					shape.i = i;
 					shape.j = j;
 					isPacmanSet = true;
 					board[i][j] = gamePlaySettings.cellValueForPacmanCharacter;
+					lastPressedKeySaveCode = arrowKeyPressedDirections.right.code;
 				}
-			    else if(randomNum <= foodRemain / countOfUnussedCells) {
+				else if (randomNum <= foodRemain / countOfUnussedCells) {
 					foodRemain--;
 					board[i][j] = gamePlaySettings.cellValueForFood;
 				}
@@ -77,14 +79,14 @@ function Start(numberOfBalls, numberOfGhosts, gameDuration) {
 	}
 	keysDown = {};
 	addEventListener(keyState.down, function (e) {
+		keysDown[lastPressedKeySaveCode] = false;
 		pacColor = colors.pacman;
 		keysDown[e.code] = true;
 		lastPressedKey = GetKeyPressed();
-	}, false);
-	addEventListener(keyState.up, function (e) {
-		keysDown[e.code] = false;
+		lastPressedKeySaveCode = e.code;
 	}, false);
 	interval = setInterval(UpdatePosition, updatePositionInterval.time);
+	drawBoardInterval = setInterval(Draw,0);
 }
 
 function findRandomEmptyCell(board) {
@@ -123,7 +125,7 @@ function isBoardPositionSavedForObstacle(i, j) {
 	}
 }
 
-function isBoardPositionSavedForGhost(i,j) {
+function isBoardPositionSavedForGhost(i, j) {
 	if ((i === 0 && j === 0) || (i === 0 && j === 9)
 		|| (i === 9 && j === 0) || (i === 9 && j === 9)) {
 		return true
