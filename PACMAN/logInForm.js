@@ -26,9 +26,7 @@ function ifUserExistStartGame() {
     if (isValidLogParameters) {
         document.getElementById('gameMenuDiv').style.display = 'block';
         document.getElementById('signInDiv').style.display = 'none';
-        preventPageFromRefreshing();
     } else {
         alert("Username/password incorrect");
-        preventPageFromRefreshing();
     }
 }
